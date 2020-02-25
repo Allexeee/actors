@@ -44,9 +44,6 @@ namespace Pixeye.Actors
 					case NULL_ENTITY:
 						Debug.LogError($"Entity <b>{contenxt[0]}</b> is null. Use <color=#ff0000ff>Entity.Create</color> to register a new entity first. <b>{contenxt[1]}</b> ");
 						break;
-					case TAGS_LIMIT_REACHED:
-						Debug.LogError($"Entity <b>{contenxt[0]}</b> has reached tag capacity. Go to Tools->Actors->Tags->Size to increase cap. Current cap: <b>{contenxt[1]}</b> ");
-						break;
 					case DESTROYED:
 						Debug.LogError($"You are trying to release already destroyed entity with ID <b>{contenxt[0]}</b>, <b>{contenxt[1]}</b>");
 						break;
@@ -64,8 +61,6 @@ namespace Pixeye.Actors
 
 		internal static GroupCore[] globals = new GroupCore[32];
 		internal static CacheGroup All = new CacheGroup();
-		internal static FamilyGroupTags ByTag = new FamilyGroupTags();
-		internal static FamilyGroupTags ByType = new FamilyGroupTags();
 	}
 
 	struct LogType
@@ -74,7 +69,6 @@ namespace Pixeye.Actors
 		public const int ALREADY_HAVE = 1;
 		public const int REMOVE_NON_EXISTANT = 2;
 		public const int NULL_ENTITY = 3;
-		public const int TAGS_LIMIT_REACHED = 4;
-		public const int DESTROYED = 5;
+		public const int DESTROYED = 4;
 	}
 }

@@ -16,9 +16,6 @@ namespace Pixeye.Actors
 		public int[] generations = new int[0];
 		public int[] ids = new int[0];
 
-		internal int[] includeTags = new int[0];
-		internal int[] excludeTags = new int[0];
-
 		public bool[] includeComponents = new bool[Framework.Settings.SizeComponents];
 		internal bool[] excludeComponents = new bool[Framework.Settings.SizeComponents];
 
@@ -60,9 +57,6 @@ namespace Pixeye.Actors
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal bool Check(int entityID)
 		{
-			#if ACTORS_TAGS_CHECKS && !ACTORS_TAGS_0
-			return CanProceed(entityID) && !ExcludeTypes(entityID) && (includeTags.Length == 0 || IncludeTags(entityID)) & (excludeTags.Length == 0 || ExcludeTags(entityID));
-			#else
 			for (int ll = 0; ll < ids.Length; ll++)
 				if ((Entity.Generations[entityID, generations[ll]] & ids[ll]) != ids[ll])
 				{
@@ -79,7 +73,6 @@ namespace Pixeye.Actors
 				}
 			}
 			return true;
-			#endif
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -91,49 +84,7 @@ namespace Pixeye.Actors
 
 			return true;
 		}
-		#if !ACTORS_TAGS_0
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal bool IncludeTags(int entityID)
-		{
-			ref var tags = ref Entity.Tags[entityID];
-			int     len  = tags.length;
 
-			if (len == 0) return false;
-			var match = 0;
-
-			for (int l = 0; l < includeTags.Length; l++)
-			{
-				var tagToInclude = includeTags[l];
-				for (int i = 0; i < len; i++)
-				{
-					ref var tag = ref tags.GetElementByRef(i);
-					if (tag == tagToInclude) match++;
-				}
-			}
-
-			return match == includeTags.Length;
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal bool ExcludeTags(int entityID)
-		{
-			ref var tags = ref Entity.Tags[entityID];
-			int     len  = tags.length;
-			if (len == 0) return true;
-
-			for (int l = 0; l < excludeTags.Length; l++)
-			{
-				var tagToExclude = excludeTags[l];
-				for (int i = 0; i < len; i++)
-				{
-					ref var tag = ref tags.GetElementByRef(i);
-					if (tag == tagToExclude) return false;
-				}
-			}
-
-			return true;
-		}
-		#endif
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal bool ExcludeTypes(int entityID)
 		{

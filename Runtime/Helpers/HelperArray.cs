@@ -32,19 +32,6 @@ namespace Pixeye.Actors
 			original = newArray;
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ResizeTags<Tag>(ref Tag[][] original, int newLength)
-		{
-			var newArray = new Tag[newLength][];
-
-			var min = Math.Min(newLength, original.GetLength(0));
-
-			for (int i = 0; i < min; i++)
-				newArray[i] = original[i];
-
-			original = newArray;
-		}
-
 		public static void Resize<T>(ref T[][] original, int newLength)
 		{
 			var newArray = new T[newLength][];

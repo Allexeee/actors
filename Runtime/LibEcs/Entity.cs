@@ -16,18 +16,10 @@ namespace Pixeye.Actors
 	{
 		public const bool Pooled = true;
 
-
-		#if !ACTORS_TAGS_0
-		static readonly int sizeBufferTags = UnsafeUtility.SizeOf<CacheTags>();
-		#endif
 		static readonly int sizeEntityCache = UnsafeUtility.SizeOf<CacheEntity>();
 
 		public static Transform[] Transforms;
-
-		#if !ACTORS_TAGS_0
-		public static CacheTags* Tags;
-		#endif
-
+		
 		public static CacheEntity* entities;
 
 		internal static int lengthTotal;
@@ -60,16 +52,9 @@ namespace Pixeye.Actors
 			Transforms  = new Transform[Framework.Settings.SizeEntities];
 
 			entities = (CacheEntity*) UnmanagedMemory.Alloc(sizeEntityCache * Framework.Settings.SizeEntities);
-			#if !ACTORS_TAGS_0
-			Tags = (CacheTags*) UnmanagedMemory.Alloc(sizeBufferTags * Framework.Settings.SizeEntities);
-			#endif
-
 
 			for (int i = 0; i < Framework.Settings.SizeEntities; i++)
 			{
-				#if !ACTORS_TAGS_0
-				Tags[i] = new CacheTags();
-				#endif
 				entities[i] = new CacheEntity(6);
 			}
 
@@ -97,15 +82,9 @@ namespace Pixeye.Actors
 				Array.Resize(ref Transforms, l);
 
 				entities = (CacheEntity*) UnmanagedMemory.ReAlloc(entities, sizeEntityCache * l);
-				#if !ACTORS_TAGS_0
-				Tags = (CacheTags*) UnmanagedMemory.ReAlloc(Tags, sizeBufferTags * l);
-				#endif
 
 				for (int i = lengthTotal; i < l; i++)
 				{
-					#if !ACTORS_TAGS_0
-					Tags[i] = new CacheTags();
-					#endif
 					entities[i] = new CacheEntity(5);
 				}
 

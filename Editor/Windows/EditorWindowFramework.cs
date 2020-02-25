@@ -19,7 +19,6 @@ namespace Pixeye.Actors
 		void OnGUI()
 		{
 			DataFramework.nameSpace      = EditorGUILayout.TextField("Namespace: ", DataFramework.nameSpace);
-			DataFramework.pathTagsEditor = EditorGUILayout.TextField("Tags path: ", DataFramework.pathTagsEditor);
 		}
 	}
 

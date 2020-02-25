@@ -101,10 +101,6 @@ namespace Pixeye.Actors
 							Entity.Transforms[entityID].gameObject.Release(Entity.entities[entityID].isPooled ? Pool.Entities : 0);
 							Entity.Transforms[entityID] = null;
 						}
-						#if !ACTORS_TAGS_0
-						Entity.Tags[entityID].Clear();
-						#endif
-
 
 						if (ent.entStack.length >= ent.entStack.source.Length)
 							Array.Resize(ref ent.entStack.source, ent.entStack.length << 1);
@@ -202,9 +198,6 @@ namespace Pixeye.Actors
 							Entity.Transforms[entityID].gameObject.Release(Entity.entities[entityID].isPooled ? Pool.Entities : 0);
 							Entity.Transforms[entityID] = null;
 						}
-						#if !ACTORS_TAGS_0
-						Entity.Tags[entityID].Clear();
-						#endif
 
 						//Entity.Count--;
 
@@ -224,35 +217,7 @@ namespace Pixeye.Actors
 						Entity.entities[entityID].isAlive = false;
 						break;
 					}
-
-					case EntityOperations.Action.ChangeTag:
-					{
-						// check if dead 
-						if (Entity.entities[entityID].componentsAmount == 0) continue;
-						if (!Entity.entities[entityID].isAlive) continue;
-						
-						var groups = Actors.groups.ByTag.cache[operation.arg];
-
-						for (int l = 0; l < groups.length; l++)
-						{
-							var group      = groups.Elements[l];
-							var canBeAdded = group.composition.Check(entityID);
-							var inGroup    = group.length == 0 ? -1 : HelperArray.BinarySearch(ref group.entities, entityID, 0, group.length-1);
-					 
-							if (inGroup == -1)
-							{
-							 	if (!canBeAdded) continue;
-								group.Insert(operation.entity);
-							}
-							else if (!canBeAdded)
-							{
-								group.Remove(inGroup);
-							}
-						}
-
-						break;
-					}
-
+					
 					case EntityOperations.Action.Activate:
 					{
 						ref var entityCache = ref Entity.entities[entityID];
@@ -337,10 +302,7 @@ namespace Pixeye.Actors
 			foreach (ent entity in Entity.alive)
 			{
 				ref var entityCache = ref Actors.Entity.entities[entity.id];
-				ref var tagCache    = ref Actors.Entity.Tags[entity.id];
-
-				tagCache.length = 0;
-
+				
 				for (int i = 0; i < entityCache.componentsAmount; i++)
 					Storage.All[entityCache.componentsIds[i]].toDispose.Add(entity.id);
 

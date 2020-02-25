@@ -68,10 +68,6 @@ namespace Pixeye.Actors
 		internal virtual GroupCore Initialize(Composition composition)
 		{
 			this.composition = composition;
-			#if !ACTORS_TAGS_0
-			HelperTags.Add(this);
-			#endif
-
 			this.composition.SetupExcludeTypes(this);
 			return this;
 		}

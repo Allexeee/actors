@@ -38,23 +38,18 @@ namespace Pixeye.Actors
 					var bindAttribute         = inner != null ? groupBindProcAttribute : Attribute.GetCustomAttribute(myFieldInfo, typeof(BindAttribute)) as BindAttribute;
 
 
-					var includeTagsFilter = groupByAttribute != null ? groupByAttribute.filter : new int[0];
-					var excludeTagsFilter = new int[0];
 					var excludeCompFilter = new int[0];
 
 					if (groupExcludeAttribute != null)
 					{
-						excludeTagsFilter = groupExcludeAttribute.filter;
 						excludeCompFilter = groupExcludeAttribute.filterType;
 					}
 
 					var composition = new Composition();
-					composition.excludeTags = excludeTagsFilter;
-					composition.includeTags = includeTagsFilter;
 					composition.AddTypesExclude(excludeCompFilter);
 
 
-					composition.hash = HashCode.OfEach(myFieldInfo.FieldType.GetGenericArguments()).AndEach(composition.includeTags).And(17).AndEach(composition.excludeTags).And(31).AndEach(excludeCompFilter);
+					composition.hash = HashCode.OfEach(myFieldInfo.FieldType.GetGenericArguments()).And(31).AndEach(excludeCompFilter);
 
 					var group = SetupGroup(myFieldInfo.FieldType, composition, myFieldInfo.GetValue(b));
 					myFieldInfo.SetValue(b, group);

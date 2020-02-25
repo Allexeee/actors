@@ -23,46 +23,9 @@ namespace Pixeye.Actors
 			string definesString = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
 			var    allDefines    = definesString.Split(';').ToList();
 
-			var index = allDefines.FindIndex(d => d.Contains("ACTORS_TAGS"));
-			var str   = string.Empty;
+			var index = allDefines.FindIndex(d => d.Contains("ACTORS_COMPONENTS_STRUCTS"));
 
-			if (DataFramework.sizeTags == 24)
-			{
-				str = "ACTORS_TAGS_24";
-			}
-			else if (DataFramework.sizeTags == 12)
-			{
-				str = "ACTORS_TAGS_12";
-			}
-			else if (DataFramework.sizeTags == 6)
-			{
-				str = "ACTORS_TAGS_6";
-			}
-			else str = "ACTORS_TAGS_0";
-
-
-			if (index > -1)
-			{
-				allDefines[index] = str;
-			}
-			else allDefines.Add(str);
-
-
-			index = allDefines.FindIndex(d => d.Contains("ACTORS_TAGS_CHECKS"));
-
-			str = DataFramework.tagsCheck ? "ACTORS_TAGS_CHECKS" : string.Empty;
-			if (index > -1)
-			{
-				allDefines[index] = str;
-			}
-			else
-			{
-				allDefines.Add(str);
-			}
-
-			index = allDefines.FindIndex(d => d.Contains("ACTORS_COMPONENTS_STRUCTS"));
-
-			str = DataFramework.onStructs ? "ACTORS_COMPONENTS_STRUCTS" : string.Empty;
+			var str = DataFramework.onStructs ? "ACTORS_COMPONENTS_STRUCTS" : string.Empty;
 			if (index > -1)
 			{
 				allDefines[index] = str;
