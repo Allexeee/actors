@@ -306,27 +306,13 @@ namespace Pixeye.Actors
 
 				for (int i = 0; i < Framework.Processors.length; i++)
 					Framework.Processors.storage[i].HandleEvents();
-
-				#if ACTORS_EVENTS_MANUAL
-			for (int ii = 0; ii < groups.All.length; ii++)
-			{
-				var nextGroup = groups.All.Elements[ii];
-
-				if (nextGroup.hasEventRemove)
-					nextGroup.removed.length = 0;
-
-
-				if (nextGroup.hasEventAdd)
-					nextGroup.added.length = 0;
-			}
-				#else
+				
 				for (int ii = 0; ii < groups.All.length; ii++)
 				{
 					var nextGroup = groups.All.Elements[ii];
 					nextGroup.removed.length = 0;
 					nextGroup.added.length   = 0;
 				}
-				#endif
 
 				for (int i = 0; i < Storage.lastID; i++)
 				{

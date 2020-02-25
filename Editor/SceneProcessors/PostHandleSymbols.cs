@@ -71,20 +71,7 @@ namespace Pixeye.Actors
 			{
 				allDefines.Add(str);
 			}
-
-			index = allDefines.FindIndex(d => d.Contains("ACTORS_EVENTS_MANUAL"));
-
-			str = DataFramework.eventsManual ? "ACTORS_EVENTS_MANUAL" : string.Empty;
-			if (index > -1)
-			{
-				allDefines[index] = str;
-			}
-			else
-			{
-				allDefines.Add(str);
-			}
-
-
+			
 			PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, string.Join(";", allDefines.ToArray()));
 		}
 	}

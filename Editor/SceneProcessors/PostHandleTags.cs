@@ -54,46 +54,8 @@ namespace Pixeye.Actors
 		// 	}
 		// }
 
-		#if !ACTORS_EVENTS_MANUAL
 
-		[MenuItem("Tools/Actors/Set Manual Events", false, 2)]
-		static public void SetManualEvents()
-		{
-			DataFramework.eventsManual = true;
-			string definesString = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
-			var    allDefines    = definesString.Split(';').ToList();
-
-			var index = allDefines.FindIndex(d => d.Contains("ACTORS_EVENTS_MANUAL"));
-			if (index == -1)
-			{
-				allDefines.Add("ACTORS_EVENTS_MANUAL");
-			}
-
-
-			PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, string.Join(";", allDefines.ToArray()));
-		}
-
-		#else
-		[MenuItem("Tools/Actors/Set Auto Events", false, 2)]
-		static public void SetNoManualEvents()
-		{
-			DataFramework.eventsManual = false;
-			string definesString = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
-			var    allDefines = definesString.Split(';').ToList();
-
-			var index = allDefines.FindIndex(d => d.Contains("ACTORS_EVENTS_MANUAL"));
-			if (index != -1)
-			{
-				allDefines[index] = string.Empty;
-			}
-
-
-			PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, string.Join(";", allDefines.ToArray()));
-		}
-		#endif
-
-
-		#if !ACTORS_COMPONENTS_STRUCTS
+#if !ACTORS_COMPONENTS_STRUCTS
 		[MenuItem("Tools/Actors/Set Struct Components", false, 2)]
 		static public void SetStructsChecks()
 		{
