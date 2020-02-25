@@ -11,7 +11,5 @@ namespace Pixeye.Actors
 	
 	public delegate void EntityActionUpdated(in ent entity, float delta);
 
-	public delegate void ModelComposer(in ent entity);
-
 	public delegate void GroupEvent(ent[] entities, int length);
 }
