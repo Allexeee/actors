@@ -205,7 +205,6 @@ namespace Pixeye.Actors
         nodes[i].Populate();
 
 
-      Add<ProcessorObserver>();
 
 
       Setup();
