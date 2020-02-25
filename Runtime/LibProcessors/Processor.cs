@@ -15,13 +15,11 @@ namespace Pixeye.Actors
 			Framework.Processors.storage[Framework.Processors.length++] = this;
 			ProcessorUpdate.AddProc(this);
 			ProcessorGroups.Setup(this);
-			ProcessorSignals.Add(this);
 			Toolbox.disposables.Add(this);
 		}
 
 		public void Dispose()
 		{
-			ProcessorSignals.Remove(this);
 			ProcessorUpdate.RemoveProc(this);
 			OnDispose();
 		}
