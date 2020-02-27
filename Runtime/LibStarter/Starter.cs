@@ -21,7 +21,6 @@ namespace Pixeye.Actors
   public class Starter : MonoBehaviour
   {
     public static bool initialized;
-    static bool typesBinded;
 
 #if ODIN_INSPECTOR
 		[FoldoutGroup("Setup")]
@@ -45,47 +44,6 @@ namespace Pixeye.Actors
       {
         ProcessorUpdate.Create();
       }
-
-
-      if (!typesBinded)
-      {
-        var asmFramework = Assembly.GetExecutingAssembly();
-        var asmDataRaw = Framework.Settings.Namespace;
-
-        var q = asmFramework.GetTypes()
-          .Where(t => t.IsSubclassOf(typeof(Storage)) && !t.ContainsGenericParameters);
-
-        foreach (var item in q)
-        {
-          Activator.CreateInstance(item);
-        }
-
-        var asmData = default(Assembly);
-        if (asmDataRaw != string.Empty)
-        {
-          asmData = Assembly.Load(asmDataRaw);
-          q = asmData.GetTypes()
-            .Where(t => t.IsSubclassOf(typeof(Storage)) && !t.ContainsGenericParameters);
-
-          foreach (var item in q)
-          {
-            Activator.CreateInstance(item);
-          }
-        }
-        else
-        {
-          q = AppDomain.CurrentDomain.GetAssemblies().Where(asm => asm != asmFramework)
-            .SelectMany(t => t.GetTypes())
-            .Where(t => t.IsSubclassOf(typeof(Storage)) && !t.ContainsGenericParameters);
-          foreach (var item in q)
-          {
-            Activator.CreateInstance(item);
-          }
-        }
-
-        typesBinded = true;
-      }
-
 
       ProcessorScene.Default.Setup(ScenesToKeep, SceneDependsOn, this);
     }

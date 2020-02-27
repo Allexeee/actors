@@ -56,11 +56,13 @@ namespace Pixeye.Actors
 		public static T[] components = new T[Framework.Settings.SizeEntities];
 		internal int componentsLen = 0;
 
-
+		static Storage()
+		{
+			Instance = new Storage<T>();
+		}
+		
 		public Storage()
 		{
-			Instance = this;
-
 			if (lastID == All.Length)
 			{
 				var l = lastID << 1;

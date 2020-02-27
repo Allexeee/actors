@@ -9,10 +9,10 @@ using UnityEngine;
 namespace Pixeye.Actors
 {
 	[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks | Option.DivideByZeroChecks, false)]
-	sealed class CacheGroup
+	public sealed class CacheGroup
 	{
-		internal GroupCore[] Elements = new GroupCore[10];
-		internal int length;
+		public GroupCore[] Elements = new GroupCore[10];
+		public int length;
 	}
 
 	[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks | Option.DivideByZeroChecks, false)]
