@@ -17,7 +17,6 @@ namespace Pixeye.Actors
 		public int[] ids = new int[0];
 
 		public bool[] includeComponents = new bool[Framework.Settings.SizeComponents];
-		internal bool[] excludeComponents = new bool[Framework.Settings.SizeComponents];
 
 		internal HashCode hash;
 
@@ -47,48 +46,7 @@ namespace Pixeye.Actors
 
 			return ids.Length == match;
 		}
-
-		internal void AddTypesExclude(int[] types)
-		{
-			if (types != null)
-				for (int i = 0; i < types.Length; i++)
-				{
-					var t = Storage.typeNames[types[i]];
-
-					excludeComponents[t] = true;
-				}
-		}
-
-		internal void SetupExcludeTypes(GroupCore g)
-		{
-			for (int i = 0; i < Storage.lastID; i++)
-			{
-				var t = excludeComponents[i];
-				// if (t) Storage.All[i].groups.Add(g);
-			}
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public bool Check(int entityID)
-		{
-			for (int ll = 0; ll < ids.Length; ll++)
-				if ((Entity.Generations[entityID, generations[ll]] & ids[ll]) != ids[ll])
-				{
-					return false;
-				}
-
-			ref var components = ref Entity.entities[entityID];
-
-			for (int i = 0; i < components.componentsAmount; i++)
-			{
-				if (excludeComponents[components.componentsIds[i]])
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-
+		
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal bool CanProceed(int entityID)
 		{
@@ -98,23 +56,7 @@ namespace Pixeye.Actors
 
 			return true;
 		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal bool ExcludeTypes(int entityID)
-		{
-			ref var components = ref Entity.entities[entityID];
-
-			for (int i = 0; i < components.componentsAmount; i++)
-			{
-				if (excludeComponents[components.componentsIds[i]])
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-
+		
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public bool Equals(Composition other)
 		{

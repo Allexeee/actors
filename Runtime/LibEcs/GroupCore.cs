@@ -32,10 +32,6 @@ namespace Pixeye.Actors
 		public ent[] entities = new ent[Framework.Settings.SizeEntities];
 		public int length;
 		
-		public ents added = new ents(Framework.Settings.SizeEntities);
-		public ents removed = new ents(Framework.Settings.SizeEntities);
-
-
 		public Composition composition;
 
 		internal int id;
@@ -59,7 +55,6 @@ namespace Pixeye.Actors
 		internal virtual GroupCore Initialize(Composition composition)
 		{
 			this.composition = composition;
-			this.composition.SetupExcludeTypes(this);
 			return this;
 		}
 
@@ -74,17 +69,14 @@ namespace Pixeye.Actors
 			var index = 0;
 			var right = length++;
 
+			// todo: сделать как проверку в редакторе
 			if (entity.id >= entities.Length)
 			{
 				Array.Resize(ref entities, entity.id << 1);
-				Array.Resize(ref added.source, entity.id << 1);
-				Array.Resize(ref removed.source, entity.id << 1);
 			}
 			else if (length >= entities.Length)
 			{
 				Array.Resize(ref entities, length << 1);
-				Array.Resize(ref added.source, length << 1);
-				Array.Resize(ref removed.source, length << 1);
 			}
 
 			var consitionSort = right - 1;
@@ -94,12 +86,10 @@ namespace Pixeye.Actors
 
 				Array.Copy(entities, index, entities, index + 1, length - index);
 				entities[index] = entity;
-				added.source[added.length++] = entity;
 			}
 			else
 			{
 				entities[right] = entity;
-				added.source[added.length++] = entity;
 			}
 		}
 
@@ -113,33 +103,12 @@ namespace Pixeye.Actors
 			return true;
 		}
 
-
-		//===============================//
-		// Try Remove
-		//===============================//
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void TryRemove(int entityID)
-		{
-			if (length == 0) return;
-		
-			var i = HelperArray.BinarySearch(ref entities, entityID, 0, length-1);
-			if (i == -1) return;
-		
-			removed.source[removed.length++] = entities[i];
-		
-			if (i < --length)
-				Array.Copy(entities, i + 1, entities, i, length - i);
-		}
-
-
 		//===============================//
 		// Remove
 		//===============================//
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public void RemoveAt(int i)
 		{
-			removed.source[removed.length++] = entities[i];
-
 			if (i < --length)
 				Array.Copy(entities, i + 1, entities, i, length - i);
 		}
@@ -147,10 +116,6 @@ namespace Pixeye.Actors
 
 		public virtual void Dispose()
 		{
-			added   = new ents(Framework.Settings.SizeEntities);
-			removed = new ents(Framework.Settings.SizeEntities);
-
-
 			//parallel
 			if (segmentGroups != null)
 				for (int i = 0; i < segmentGroups.Length; i++)

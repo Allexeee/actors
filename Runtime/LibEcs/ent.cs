@@ -22,12 +22,6 @@ namespace Pixeye.Actors
     internal static int  lastID;
 
     //===============================//
-    // Groups
-    //===============================//
-    public static readonly groups groups = new groups();
-
-
-    //===============================//
     // Entity
     //===============================//
     public   int  id;
@@ -51,7 +45,6 @@ namespace Pixeye.Actors
       // age = 0;
     }
 
-    //todo: проверить, где используется
     public override int GetHashCode()
     {
       return ((id << 5) + id) /*^ age*/;
@@ -61,22 +54,6 @@ namespace Pixeye.Actors
     {
       return id.ToString();
     }
-
-    // [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//     public void Release()
-//     {
-// #if UNITY_EDITOR
-//       if (!exist)
-//       {
-//         Framework.Debugger.Log(LogType.DESTROYED, this, transform);
-//         return;
-//       }
-// #endif
-//
-//       EntityOperations.Set(this, 0, EntityOperations.Action.Kill);
-//       Entity.entities[id].isAlive = false;
-//       //id = 0; todo: think how to set id to zero from release.
-//     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Equals(ent other)

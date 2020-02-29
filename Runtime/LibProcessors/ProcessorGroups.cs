@@ -18,8 +18,6 @@ namespace Pixeye.Actors
 			int length       = objectFields.Length;
 
 			var groupType = typeof(GroupCore);
-			var groupByProcAttribute      = Attribute.GetCustomAttribute(type, typeof(GroupByAttribute)) as GroupByAttribute;
-			var groupExcludeProcAttribute = Attribute.GetCustomAttribute(type, typeof(ExcludeAttribute)) as ExcludeAttribute;
 			var groupBindProcAttribute    = Attribute.GetCustomAttribute(type, typeof(BindAttribute)) as BindAttribute;
 
 
@@ -33,23 +31,11 @@ namespace Pixeye.Actors
 					var inner = Attribute.GetCustomAttribute(myFieldInfo, typeof(InnerGroupAttribute)) as InnerGroupAttribute;
 
 					// if group is located inside of the base processor use processor filtering 
-					var groupByAttribute      = inner != null ? groupByProcAttribute : Attribute.GetCustomAttribute(myFieldInfo, typeof(GroupByAttribute)) as GroupByAttribute;
-					var groupExcludeAttribute = inner != null ? groupExcludeProcAttribute : Attribute.GetCustomAttribute(myFieldInfo, typeof(ExcludeAttribute)) as ExcludeAttribute;
 					var bindAttribute         = inner != null ? groupBindProcAttribute : Attribute.GetCustomAttribute(myFieldInfo, typeof(BindAttribute)) as BindAttribute;
 
-
-					var excludeCompFilter = new int[0];
-
-					if (groupExcludeAttribute != null)
-					{
-						excludeCompFilter = groupExcludeAttribute.filterType;
-					}
-
 					var composition = new Composition();
-					composition.AddTypesExclude(excludeCompFilter);
 
-
-					composition.hash = HashCode.OfEach(myFieldInfo.FieldType.GetGenericArguments()).And(31).AndEach(excludeCompFilter);
+					composition.hash = HashCode.OfEach(myFieldInfo.FieldType.GetGenericArguments()).And(31);
 
 					var group = SetupGroup(myFieldInfo.FieldType, composition, myFieldInfo.GetValue(b));
 					myFieldInfo.SetValue(b, group);
