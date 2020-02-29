@@ -14,24 +14,24 @@ namespace Pixeye.Actors
 	public unsafe class Composition : IEquatable<Composition>
 	{
 		public int[] generations = new int[0];
-		public int[] ids = new int[0];
+		// public int[] ids = new int[0];
 
 		public bool[] includeComponents = new bool[Framework.Settings.SizeComponents];
 
 		internal HashCode hash;
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal bool OverlapComponents(in CacheEntity cache)
-		{
-			int match = 0;
-			for (int i = 0; i < cache.componentsAmount; i++)
-			{
-				if (includeComponents[cache.componentsIds[i]])
-					match++;
-			}
-
-			return ids.Length == match;
-		}
+		// [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		// internal bool OverlapComponents(in CacheEntity cache)
+		// {
+		// 	int match = 0;
+		// 	for (int i = 0; i < cache.componentsAmount; i++)
+		// 	{
+		// 		if (includeComponents[cache.componentsIds[i]])
+		// 			match++;
+		// 	}
+		//
+		// 	return ids.Length == match;
+		// }
 		
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public bool OverlapComponents(in ent entity)
@@ -44,18 +44,18 @@ namespace Pixeye.Actors
 					match++;
 			}
 
-			return ids.Length == match;
+			return generations.Length == match;
 		}
 		
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal bool CanProceed(int entityID)
-		{
-			for (int ll = 0; ll < ids.Length; ll++)
-				if ((Entity.Generations[entityID, generations[ll]] & ids[ll]) != ids[ll])
-					return false;
-
-			return true;
-		}
+		// [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		// internal bool CanProceed(int entityID)
+		// {
+		// 	for (int ll = 0; ll < ids.Length; ll++)
+		// 		if ((Entity.Generations[entityID, generations[ll]] & ids[ll]) != ids[ll])
+		// 			return false;
+		//
+		// 	return true;
+		// }
 		
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public bool Equals(Composition other)

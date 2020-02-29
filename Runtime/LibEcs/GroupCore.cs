@@ -51,6 +51,12 @@ namespace Pixeye.Actors
 			if (length == 0) return;
 			entities[index].Release();
 		}
+
+		protected void CompositionAdd<T>(Composition composition, int index)
+		{
+			composition.generations[index] = Storage<T>.Generation;
+			composition.includeComponents[Storage<T>.componentId] = true;
+		}
 		
 		internal virtual GroupCore Initialize(Composition composition)
 		{
@@ -361,17 +367,9 @@ namespace Pixeye.Actors
 		{
 			var gr = base.Initialize(composition);
 
-			// Storage<T>.Instance.groups.Add(this);
+			composition.generations = new int[1];
+			CompositionAdd<T>(composition, 0);
 
-			var len = 1;
-
-			composition.generations = new int[len];
-			composition.ids         = new int[len];
-
-			composition.generations[0] = Storage<T>.Generation;
-			composition.ids[0]         = Storage<T>.ComponentMask;
-
-			composition.includeComponents[Storage<T>.componentId] = true;
 			return gr;
 		}
 	}
@@ -381,21 +379,10 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			// Storage<T>.Instance.groups.Add(this);
-			// Storage<Y>.Instance.groups.Add(this);
 
-			var len = 2;
-
-			composition.generations = new int[len];
-			composition.ids         = new int[len];
-
-			composition.generations[0]                            = Storage<T>.Generation;
-			composition.ids[0]                                    = Storage<T>.ComponentMask;
-			composition.includeComponents[Storage<T>.componentId] = true;
-
-			composition.generations[1]                            = Storage<Y>.Generation;
-			composition.ids[1]                                    = Storage<Y>.ComponentMask;
-			composition.includeComponents[Storage<Y>.componentId] = true;
+			composition.generations = new int[2];
+			CompositionAdd<T>(composition, 0);
+			CompositionAdd<Y>(composition, 1);
 			return gr;
 		}
 	}
@@ -405,26 +392,10 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			// Storage<T>.Instance.groups.Add(this);
-			// Storage<Y>.Instance.groups.Add(this);
-			// Storage<U>.Instance.groups.Add(this);
-
-			var len = 3;
-
-			composition.generations = new int[len];
-			composition.ids         = new int[len];
-
-			composition.generations[0]                            = Storage<T>.Generation;
-			composition.ids[0]                                    = Storage<T>.ComponentMask;
-			composition.includeComponents[Storage<T>.componentId] = true;
-
-			composition.generations[1]                            = Storage<Y>.Generation;
-			composition.ids[1]                                    = Storage<Y>.ComponentMask;
-			composition.includeComponents[Storage<Y>.componentId] = true;
-
-			composition.generations[2]                            = Storage<U>.Generation;
-			composition.ids[2]                                    = Storage<U>.ComponentMask;
-			composition.includeComponents[Storage<U>.componentId] = true;
+			composition.generations = new int[3];
+			CompositionAdd<T>(composition, 0);
+			CompositionAdd<Y>(composition, 1);
+			CompositionAdd<U>(composition, 2);
 			return gr;
 		}
 	}
@@ -433,32 +404,12 @@ namespace Pixeye.Actors
 	{
 		internal override GroupCore Initialize(Composition composition)
 		{
-			var gr = base.Initialize(composition);
-			// Storage<T>.Instance.groups.Add(this);
-			// Storage<Y>.Instance.groups.Add(this);
-			// Storage<U>.Instance.groups.Add(this);
-			// Storage<I>.Instance.groups.Add(this);
-
-			var len = 4;
-
-			composition.generations = new int[len];
-			composition.ids         = new int[len];
-
-			composition.generations[0]                            = Storage<T>.Generation;
-			composition.ids[0]                                    = Storage<T>.ComponentMask;
-			composition.includeComponents[Storage<T>.componentId] = true;
-
-			composition.generations[1]                            = Storage<Y>.Generation;
-			composition.ids[1]                                    = Storage<Y>.ComponentMask;
-			composition.includeComponents[Storage<Y>.componentId] = true;
-
-			composition.generations[2]                            = Storage<U>.Generation;
-			composition.ids[2]                                    = Storage<U>.ComponentMask;
-			composition.includeComponents[Storage<U>.componentId] = true;
-
-			composition.generations[3]                            = Storage<I>.Generation;
-			composition.ids[3]                                    = Storage<I>.ComponentMask;
-			composition.includeComponents[Storage<I>.componentId] = true;
+			var gr  = base.Initialize(composition);
+			composition.generations = new int[4];
+			CompositionAdd<T>(composition, 0);
+			CompositionAdd<Y>(composition, 1);
+			CompositionAdd<U>(composition, 2);
+			CompositionAdd<I>(composition, 3);
 			return gr;
 		}
 	}
@@ -468,76 +419,28 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			// Storage<T>.Instance.groups.Add(this);
-			// Storage<Y>.Instance.groups.Add(this);
-			// Storage<U>.Instance.groups.Add(this);
-			// Storage<I>.Instance.groups.Add(this);
-			// Storage<O>.Instance.groups.Add(this);
-			var len = 5;
-
-			composition.generations = new int[len];
-			composition.ids         = new int[len];
-
-			composition.generations[0] = Storage<T>.Generation;
-			composition.ids[0]         = Storage<T>.ComponentMask;
-
-			composition.generations[1] = Storage<Y>.Generation;
-			composition.ids[1]         = Storage<Y>.ComponentMask;
-
-			composition.generations[2] = Storage<U>.Generation;
-			composition.ids[2]         = Storage<U>.ComponentMask;
-
-			composition.generations[3] = Storage<I>.Generation;
-			composition.ids[3]         = Storage<I>.ComponentMask;
-
-			composition.generations[4] = Storage<O>.Generation;
-			composition.ids[4]         = Storage<O>.ComponentMask;
-
+			composition.generations = new int[5];
+			CompositionAdd<T>(composition, 0);
+			CompositionAdd<Y>(composition, 1);
+			CompositionAdd<U>(composition, 2);
+			CompositionAdd<I>(composition, 3);
+			CompositionAdd<O>(composition, 4);
 			return gr;
 		}
 	}
 
 	public class Group<T, Y, U, I, O, P> : GroupCore
-
 	{
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			// Storage<T>.Instance.groups.Add(this);
-			// Storage<Y>.Instance.groups.Add(this);
-			// Storage<U>.Instance.groups.Add(this);
-			// Storage<I>.Instance.groups.Add(this);
-			// Storage<O>.Instance.groups.Add(this);
-			// Storage<P>.Instance.groups.Add(this);
-
-			var len = 6;
-
-			composition.generations = new int[len];
-			composition.ids         = new int[len];
-
-			composition.generations[0]                            = Storage<T>.Generation;
-			composition.ids[0]                                    = Storage<T>.ComponentMask;
-			composition.includeComponents[Storage<T>.componentId] = true;
-
-			composition.generations[1]                            = Storage<Y>.Generation;
-			composition.ids[1]                                    = Storage<Y>.ComponentMask;
-			composition.includeComponents[Storage<Y>.componentId] = true;
-
-			composition.generations[2]                            = Storage<U>.Generation;
-			composition.ids[2]                                    = Storage<U>.ComponentMask;
-			composition.includeComponents[Storage<U>.componentId] = true;
-
-			composition.generations[3]                            = Storage<I>.Generation;
-			composition.ids[3]                                    = Storage<I>.ComponentMask;
-			composition.includeComponents[Storage<I>.componentId] = true;
-
-			composition.generations[4]                            = Storage<O>.Generation;
-			composition.ids[4]                                    = Storage<O>.ComponentMask;
-			composition.includeComponents[Storage<O>.componentId] = true;
-
-			composition.generations[5]                            = Storage<P>.Generation;
-			composition.ids[5]                                    = Storage<P>.ComponentMask;
-			composition.includeComponents[Storage<P>.componentId] = true;
+			composition.generations = new int[6];
+			CompositionAdd<T>(composition, 0);
+			CompositionAdd<Y>(composition, 1);
+			CompositionAdd<U>(composition, 2);
+			CompositionAdd<I>(composition, 3);
+			CompositionAdd<O>(composition, 4);
+			CompositionAdd<P>(composition, 5);
 			return gr;
 		}
 	}
@@ -547,46 +450,14 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			// Storage<T>.Instance.groups.Add(this);
-			// Storage<Y>.Instance.groups.Add(this);
-			// Storage<U>.Instance.groups.Add(this);
-			// Storage<I>.Instance.groups.Add(this);
-			// Storage<O>.Instance.groups.Add(this);
-			// Storage<P>.Instance.groups.Add(this);
-			// Storage<A>.Instance.groups.Add(this);
-
-			var len = 7;
-
-			composition.generations = new int[len];
-			composition.ids         = new int[len];
-
-			composition.generations[0]                            = Storage<T>.Generation;
-			composition.ids[0]                                    = Storage<T>.ComponentMask;
-			composition.includeComponents[Storage<T>.componentId] = true;
-
-			composition.generations[1]                            = Storage<Y>.Generation;
-			composition.ids[1]                                    = Storage<Y>.ComponentMask;
-			composition.includeComponents[Storage<Y>.componentId] = true;
-
-			composition.generations[2]                            = Storage<U>.Generation;
-			composition.ids[2]                                    = Storage<U>.ComponentMask;
-			composition.includeComponents[Storage<U>.componentId] = true;
-
-			composition.generations[3]                            = Storage<I>.Generation;
-			composition.ids[3]                                    = Storage<I>.ComponentMask;
-			composition.includeComponents[Storage<I>.componentId] = true;
-
-			composition.generations[4]                            = Storage<O>.Generation;
-			composition.ids[4]                                    = Storage<O>.ComponentMask;
-			composition.includeComponents[Storage<O>.componentId] = true;
-
-			composition.generations[5]                            = Storage<P>.Generation;
-			composition.ids[5]                                    = Storage<P>.ComponentMask;
-			composition.includeComponents[Storage<P>.componentId] = true;
-
-			composition.generations[6]                            = Storage<A>.Generation;
-			composition.ids[6]                                    = Storage<A>.ComponentMask;
-			composition.includeComponents[Storage<A>.componentId] = true;
+			composition.generations = new int[7];
+			CompositionAdd<T>(composition, 0);
+			CompositionAdd<Y>(composition, 1);
+			CompositionAdd<U>(composition, 2);
+			CompositionAdd<I>(composition, 3);
+			CompositionAdd<O>(composition, 4);
+			CompositionAdd<P>(composition, 5);
+			CompositionAdd<A>(composition, 6);
 			return gr;
 		}
 	}
@@ -596,51 +467,15 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			// Storage<T>.Instance.groups.Add(this);
-			// Storage<Y>.Instance.groups.Add(this);
-			// Storage<U>.Instance.groups.Add(this);
-			// Storage<I>.Instance.groups.Add(this);
-			// Storage<O>.Instance.groups.Add(this);
-			// Storage<P>.Instance.groups.Add(this);
-			// Storage<A>.Instance.groups.Add(this);
-			// Storage<S>.Instance.groups.Add(this);
-
-			var len = 8;
-
-			composition.generations = new int[len];
-			composition.ids         = new int[len];
-
-			composition.generations[0]                            = Storage<T>.Generation;
-			composition.ids[0]                                    = Storage<T>.ComponentMask;
-			composition.includeComponents[Storage<T>.componentId] = true;
-
-			composition.generations[1]                            = Storage<Y>.Generation;
-			composition.ids[1]                                    = Storage<Y>.ComponentMask;
-			composition.includeComponents[Storage<Y>.componentId] = true;
-
-			composition.generations[2]                            = Storage<U>.Generation;
-			composition.ids[2]                                    = Storage<U>.ComponentMask;
-			composition.includeComponents[Storage<U>.componentId] = true;
-
-			composition.generations[3]                            = Storage<I>.Generation;
-			composition.ids[3]                                    = Storage<I>.ComponentMask;
-			composition.includeComponents[Storage<I>.componentId] = true;
-
-			composition.generations[4]                            = Storage<O>.Generation;
-			composition.ids[4]                                    = Storage<O>.ComponentMask;
-			composition.includeComponents[Storage<O>.componentId] = true;
-
-			composition.generations[5]                            = Storage<P>.Generation;
-			composition.ids[5]                                    = Storage<P>.ComponentMask;
-			composition.includeComponents[Storage<P>.componentId] = true;
-
-			composition.generations[6]                            = Storage<A>.Generation;
-			composition.ids[6]                                    = Storage<A>.ComponentMask;
-			composition.includeComponents[Storage<A>.componentId] = true;
-
-			composition.generations[7]                            = Storage<S>.Generation;
-			composition.ids[7]                                    = Storage<S>.ComponentMask;
-			composition.includeComponents[Storage<S>.componentId] = true;
+			composition.generations = new int[8];
+			CompositionAdd<T>(composition, 0);
+			CompositionAdd<Y>(composition, 1);
+			CompositionAdd<U>(composition, 2);
+			CompositionAdd<I>(composition, 3);
+			CompositionAdd<O>(composition, 4);
+			CompositionAdd<P>(composition, 5);
+			CompositionAdd<A>(composition, 6);
+			CompositionAdd<S>(composition, 7);
 			return gr;
 		}
 	}
@@ -650,55 +485,16 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			// Storage<T>.Instance.groups.Add(this);
-			// Storage<Y>.Instance.groups.Add(this);
-			// Storage<U>.Instance.groups.Add(this);
-			// Storage<I>.Instance.groups.Add(this);
-			// Storage<O>.Instance.groups.Add(this);
-			// Storage<P>.Instance.groups.Add(this);
-			// Storage<A>.Instance.groups.Add(this);
-			// Storage<S>.Instance.groups.Add(this);
-			// Storage<D>.Instance.groups.Add(this);
-			var len = 9;
-
-			composition.generations = new int[len];
-			composition.ids         = new int[len];
-
-			composition.generations[0]                            = Storage<T>.Generation;
-			composition.ids[0]                                    = Storage<T>.ComponentMask;
-			composition.includeComponents[Storage<T>.componentId] = true;
-
-			composition.generations[1]                            = Storage<Y>.Generation;
-			composition.ids[1]                                    = Storage<Y>.ComponentMask;
-			composition.includeComponents[Storage<Y>.componentId] = true;
-
-			composition.generations[2]                            = Storage<U>.Generation;
-			composition.ids[2]                                    = Storage<U>.ComponentMask;
-			composition.includeComponents[Storage<U>.componentId] = true;
-
-			composition.generations[3]                            = Storage<I>.Generation;
-			composition.ids[3]                                    = Storage<I>.ComponentMask;
-			composition.includeComponents[Storage<I>.componentId] = true;
-
-			composition.generations[4]                            = Storage<O>.Generation;
-			composition.ids[4]                                    = Storage<O>.ComponentMask;
-			composition.includeComponents[Storage<O>.componentId] = true;
-
-			composition.generations[5]                            = Storage<P>.Generation;
-			composition.ids[5]                                    = Storage<P>.ComponentMask;
-			composition.includeComponents[Storage<P>.componentId] = true;
-
-			composition.generations[6]                            = Storage<A>.Generation;
-			composition.ids[6]                                    = Storage<A>.ComponentMask;
-			composition.includeComponents[Storage<A>.componentId] = true;
-
-			composition.generations[7]                            = Storage<S>.Generation;
-			composition.ids[7]                                    = Storage<S>.ComponentMask;
-			composition.includeComponents[Storage<S>.componentId] = true;
-
-			composition.generations[8]                            = Storage<D>.Generation;
-			composition.ids[8]                                    = Storage<D>.ComponentMask;
-			composition.includeComponents[Storage<D>.componentId] = true;
+			composition.generations = new int[9];
+			CompositionAdd<T>(composition, 0);
+			CompositionAdd<Y>(composition, 1);
+			CompositionAdd<U>(composition, 2);
+			CompositionAdd<I>(composition, 3);
+			CompositionAdd<O>(composition, 4);
+			CompositionAdd<P>(composition, 5);
+			CompositionAdd<A>(composition, 6);
+			CompositionAdd<S>(composition, 7);
+			CompositionAdd<D>(composition, 8);
 			return gr;
 		}
 	}
@@ -708,61 +504,19 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			// Storage<T>.Instance.groups.Add(this);
-			// Storage<Y>.Instance.groups.Add(this);
-			// Storage<U>.Instance.groups.Add(this);
-			// Storage<I>.Instance.groups.Add(this);
-			// Storage<O>.Instance.groups.Add(this);
-			// Storage<P>.Instance.groups.Add(this);
-			// Storage<A>.Instance.groups.Add(this);
-			// Storage<S>.Instance.groups.Add(this);
-			// Storage<D>.Instance.groups.Add(this);
-			// Storage<F>.Instance.groups.Add(this);
-			var len = 10;
-
-			composition.generations = new int[len];
-			composition.ids         = new int[len];
-
-			composition.generations[0]                            = Storage<T>.Generation;
-			composition.ids[0]                                    = Storage<T>.ComponentMask;
-			composition.includeComponents[Storage<T>.componentId] = true;
-
-			composition.generations[1]                            = Storage<Y>.Generation;
-			composition.ids[1]                                    = Storage<Y>.ComponentMask;
-			composition.includeComponents[Storage<Y>.componentId] = true;
-
-			composition.generations[2]                            = Storage<U>.Generation;
-			composition.ids[2]                                    = Storage<U>.ComponentMask;
-			composition.includeComponents[Storage<U>.componentId] = true;
-
-			composition.generations[3]                            = Storage<I>.Generation;
-			composition.ids[3]                                    = Storage<I>.ComponentMask;
-			composition.includeComponents[Storage<I>.componentId] = true;
-
-			composition.generations[4]                            = Storage<O>.Generation;
-			composition.ids[4]                                    = Storage<O>.ComponentMask;
-			composition.includeComponents[Storage<O>.componentId] = true;
-
-			composition.generations[5]                            = Storage<P>.Generation;
-			composition.ids[5]                                    = Storage<P>.ComponentMask;
-			composition.includeComponents[Storage<P>.componentId] = true;
-
-			composition.generations[6]                            = Storage<A>.Generation;
-			composition.ids[6]                                    = Storage<A>.ComponentMask;
-			composition.includeComponents[Storage<A>.componentId] = true;
-
-			composition.generations[7]                            = Storage<S>.Generation;
-			composition.ids[7]                                    = Storage<S>.ComponentMask;
-			composition.includeComponents[Storage<S>.componentId] = true;
-
-			composition.generations[8]                            = Storage<D>.Generation;
-			composition.ids[8]                                    = Storage<D>.ComponentMask;
-			composition.includeComponents[Storage<D>.componentId] = true;
-
-			composition.generations[9]                            = Storage<F>.Generation;
-			composition.ids[9]                                    = Storage<F>.ComponentMask;
-			composition.includeComponents[Storage<F>.componentId] = true;
+			composition.generations = new int[10];
+			CompositionAdd<T>(composition, 0);
+			CompositionAdd<Y>(composition, 1);
+			CompositionAdd<U>(composition, 2);
+			CompositionAdd<I>(composition, 3);
+			CompositionAdd<O>(composition, 4);
+			CompositionAdd<P>(composition, 5);
+			CompositionAdd<A>(composition, 6);
+			CompositionAdd<S>(composition, 7);
+			CompositionAdd<D>(composition, 8);
+			CompositionAdd<F>(composition, 9);
 			return gr;
+
 		}
 	}
 }

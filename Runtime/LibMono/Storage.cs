@@ -47,7 +47,7 @@ namespace Pixeye.Actors
 	{
 		public static Storage<T> Instance;
 		public static int componentId;
-		internal static int ComponentMask;
+		// internal static int ComponentMask;
 		internal static int Generation;
 
 		public static T[] components = new T[Framework.Settings.SizeEntities];
@@ -71,7 +71,7 @@ namespace Pixeye.Actors
 			componentId      = lastID++;
 			All[componentId] = this;
 
-			Masks[componentId]       = ComponentMask = 1 << (componentId % 32);
+			// Masks[componentId]       = ComponentMask = 1 << (componentId % 32);
 			Generations[componentId] = Generation    = componentId / 32;
 
 			// add componentID by type for exclude injection
@@ -108,12 +108,12 @@ namespace Pixeye.Actors
 		// }
 
 
-		#if !ACTORS_COMPONENTS_STRUCTS
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public T TryGet(int entityID)
-		{
-			return (Entity.Generations[entityID, Generation] & ComponentMask) == ComponentMask ? components[entityID] : default;
-		}
-		#endif
+		// #if !ACTORS_COMPONENTS_STRUCTS
+		// [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		// public T TryGet(int entityID)
+		// {
+		// 	return (Entity.Generations[entityID, Generation] & ComponentMask) == ComponentMask ? components[entityID] : default;
+		// }
+		// #endif
 	}
 }

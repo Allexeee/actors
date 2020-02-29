@@ -21,7 +21,7 @@ namespace Pixeye.Actors
 				// }
 			}
 			else
-				id = ent.lastID++;
+				id = ++ent.lastID;
 
 			ent entity;
 			entity.id  = id;
