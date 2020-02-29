@@ -20,7 +20,7 @@ namespace Source.Runtime
 
   sealed class StorageComponentAddComponents : Storage<ComponentAddComponents>
   {
-    public override ComponentAddComponents Create() => new ComponentAddComponents();
+    // public override ComponentAddComponents Create() => new ComponentAddComponents();
 
     public override void Dispose(indexes disposed)
     {

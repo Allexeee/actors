@@ -79,11 +79,11 @@ namespace Pixeye.Actors
 		}
 
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public virtual T Create()
-		{
-			return default;
-		}
+		// [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		// public virtual T Create()
+		// {
+		// 	return new T();
+		// }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal override Type GetComponentType()
@@ -91,21 +91,21 @@ namespace Pixeye.Actors
 			return typeof(T);
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static ref T Get(int entityID)
-		{
-			if (entityID >= components.Length)
-				Array.Resize(ref components, entityID << 1);
-
-
-			#if !ACTORS_COMPONENTS_STRUCTS
-			ref var val = ref components[entityID];
-			if (val == null)
-				val = Instance.Create();
-			#endif
-
-			return ref components[entityID];
-		}
+		// [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		// public static ref T Get(int entityID)
+		// {
+		// 	if (entityID >= components.Length)
+		// 		Array.Resize(ref components, entityID << 1);
+		//
+		//
+		// 	#if !ACTORS_COMPONENTS_STRUCTS
+		// 	ref var val = ref components[entityID];
+		// 	if (val == null)
+		// 		val = Instance.Create();
+		// 	#endif
+		//
+		// 	return ref components[entityID];
+		// }
 
 
 		#if !ACTORS_COMPONENTS_STRUCTS

@@ -19,7 +19,7 @@ namespace Source.Runtime
 
   sealed class StorageComponentReleaseEntity : Storage<ComponentReleaseEntity>
   {
-    public override ComponentReleaseEntity Create() => new ComponentReleaseEntity();
+    // public override ComponentReleaseEntity Create() => new ComponentReleaseEntity();
 
     public override void Dispose(indexes disposed)
     {

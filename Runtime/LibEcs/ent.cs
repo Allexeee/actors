@@ -24,7 +24,7 @@ namespace Pixeye.Actors
     //===============================//
     // Entity
     //===============================//
-    public   int  id;
+    public int id;
     // internal byte age;
 
     public ref readonly Transform transform
@@ -41,7 +41,7 @@ namespace Pixeye.Actors
 
     public ent(int value)
     {
-      id  = value;
+      id = value;
       // age = 0;
     }
 
@@ -58,7 +58,7 @@ namespace Pixeye.Actors
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Equals(ent other)
     {
-      return id == other.id/* && age == other.age*/;
+      return id == other.id /* && age == other.age*/;
     }
 
     public override bool Equals(object obj)
@@ -82,7 +82,7 @@ namespace Pixeye.Actors
 
     static public bool operator ==(ent arg1, ent arg2)
     {
-      return arg1.id == arg2.id/* && arg1.age == arg2.age*/;
+      return arg1.id == arg2.id /* && arg1.age == arg2.age*/;
     }
 
     public static bool operator !=(ent arg1, ent arg2)
@@ -90,23 +90,23 @@ namespace Pixeye.Actors
       return !(arg1 == arg2);
     }
 
-    public void Add<T>(out T component) where T : class
+    public void Add<T>(out T component) where T : class, new()
     {
       component = Storage<T>.components[id];
       if (component == null)
-        component = Storage<T>.Instance.Create();
+        component = Storage<T>.components[id] = new T();
 
       AddComponent(Storage<T>.componentId);
-      
+
       Toolbox.Get<ProcessorAddComponents>().source.Insert(this);
-    }    
-    
+    }
+
     public void Add<T>(T component) where T : class
     {
       Storage<T>.components[id] = component;
 
       AddComponent(Storage<T>.componentId);
-      
+
       Toolbox.Get<ProcessorAddComponents>().source.Insert(this);
     }
 

@@ -19,7 +19,7 @@ namespace Source.Runtime
 
   sealed class StorageComponentRemoveComponents : Storage<ComponentRemoveComponents>
   {
-    public override ComponentRemoveComponents Create() => new ComponentRemoveComponents();
+    // public override ComponentRemoveComponents Create() => new ComponentRemoveComponents();
 
     public override void Dispose(indexes disposed)
     {
