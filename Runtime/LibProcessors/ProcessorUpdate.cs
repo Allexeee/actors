@@ -185,12 +185,12 @@ namespace Pixeye.Actors
       }
 
 
-      ProcessorEntities.Tick(delta);
+      // ProcessorEntities.Tick(delta);
 
       for (var i = 0; i < countTicksProc; i++)
       {
         ticksProc[i].Tick(delta);
-        ProcessorEntities.Tick(delta);
+        // ProcessorEntities.Tick(delta);
       }
 
       routines.Default.Tick(delta);
@@ -203,7 +203,7 @@ namespace Pixeye.Actors
       for (var i = 0; i < countTicksFixed; i++)
       {
         ticksFixed[i].TickFixed(delta);
-        ProcessorEntities.Tick(delta);
+        // ProcessorEntities.Tick(delta);
       }
     }
 
@@ -214,7 +214,7 @@ namespace Pixeye.Actors
       for (var i = 0; i < countTicksLate; i++)
       {
         ticksLate[i].TickLate(delta);
-        ProcessorEntities.Tick(delta);
+        // ProcessorEntities.Tick(delta);
       }
     }
 

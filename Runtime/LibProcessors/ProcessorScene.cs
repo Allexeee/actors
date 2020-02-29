@@ -137,7 +137,7 @@ namespace Pixeye.Actors
 
             routines.Default.StopAll();
             OnSceneClose();
-            ProcessorEntities.Clean();
+            // ProcessorEntities.Clean();
             Toolbox.changingScene = true;
             Toolbox.Instance.ClearSessionData();
 

@@ -71,7 +71,7 @@ namespace Pixeye.Actors
 			if (isActiveAndEnabled)
 			{
 					Setup();
-					EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
+					// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
 			}
 		}
 

@@ -55,7 +55,7 @@ namespace Pixeye.Actors
 			Initialize(id, age, pooled);
 			Transforms[id] = pooled ? Obj.Spawn(Pool.Entities, prefabID, position) : Obj.Spawn(prefabID, position);
 
-			EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
+			// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
 			return entity;
 		}
 
@@ -80,7 +80,7 @@ namespace Pixeye.Actors
 			entity.age = age;
 			Initialize(id, age, pooled);
 			Transforms[id] = pooled ? Obj.Spawn(1, prefabID, parent, position, new Quaternion()) : Obj.Spawn(prefabID, parent, position, new Quaternion());
-			EntityOperations.Set(in entity, -1, EntityOperations.Action.Activate);
+			// EntityOperations.Set(in entity, -1, EntityOperations.Action.Activate);
 			return entity;
 		}
 
@@ -106,7 +106,7 @@ namespace Pixeye.Actors
 			entity.age = age;
 			Initialize(id, age, pooled);
 			Transforms[id] = pooled ? Obj.Spawn(1, prefab, parent, position) : Obj.Spawn(prefab, parent, position);
-			EntityOperations.Set(in entity, -1, EntityOperations.Action.Activate);
+			// EntityOperations.Set(in entity, -1, EntityOperations.Action.Activate);
 			return entity;
 		}
 		public static ent Create(GameObject prefab, Vector3 position = default, bool pooled = false)
@@ -135,7 +135,7 @@ namespace Pixeye.Actors
 			Initialize(id, age, pooled);
 			Transforms[id] = pooled ? Obj.Spawn(Pool.Entities, prefab, position) : Obj.Spawn(prefab, position);
 
-			EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
+			// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
 			return entity;
 		}
 
@@ -162,7 +162,7 @@ namespace Pixeye.Actors
 
 			Initialize(id, age);
 			Transforms[id] = obj.transform;
-			EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
+			// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
 			return entity;
 		}
 
@@ -190,7 +190,7 @@ namespace Pixeye.Actors
 			Initialize(id, age);
 
 			Transforms[id] = GameObject.Find(name).transform;
-			EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
+			// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
 			return entity;
 		}
 		

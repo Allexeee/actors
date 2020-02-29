@@ -208,7 +208,7 @@ namespace Pixeye.Actors
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal static void Deploy(in this ent entity)
 		{
-			EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
+			// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
 		}
 
 
@@ -237,7 +237,7 @@ namespace Pixeye.Actors
 				if (!entities[id].isDirty)
 				{
 					//	Generations[id, Storage<T>.Generation] |= Storage<T>.ComponentMask;
-					EntityOperations.Set(entity, Storage<T>.componentId, EntityOperations.Action.Add);
+					// EntityOperations.Set(entity, Storage<T>.componentId, EntityOperations.Action.Add);
 				}
 			}
 
@@ -316,7 +316,7 @@ namespace Pixeye.Actors
 			if (!entities[id].isDirty)
 			{
 				//Generations[id, Storage<T>.Generation] |= Storage<T>.ComponentMask;
-				EntityOperations.Set(entity, Storage<T>.componentId, EntityOperations.Action.Add);
+				// EntityOperations.Set(entity, Storage<T>.componentId, EntityOperations.Action.Add);
 
 
 				// #if ACTORS_DEBUG
@@ -375,7 +375,7 @@ namespace Pixeye.Actors
 			if (!entities[id].isDirty)
 			{
 				//	Generations[id, Storage<T>.Generation] |= Storage<T>.ComponentMask;
-				EntityOperations.Set(entity, Storage<T>.componentId, EntityOperations.Action.Add);
+				// EntityOperations.Set(entity, Storage<T>.componentId, EntityOperations.Action.Add);
 			}
 
 			// if (!entities[id].isDirty)
@@ -406,7 +406,7 @@ namespace Pixeye.Actors
 
 			#endif
 
-			EntityOperations.Set(entity, Storage<T>.componentId, EntityOperations.Action.Remove);
+			// EntityOperations.Set(entity, Storage<T>.componentId, EntityOperations.Action.Remove);
 		}
 
 
