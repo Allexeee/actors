@@ -26,15 +26,6 @@ namespace Pixeye.Actors
 		}
 	}
 
-	[Flags]
-	public enum Op
-	{
-		Add = 1,
-		Remove = 2,
-		All = Add | Remove
-	}
-
-
 	[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks | Option.DivideByZeroChecks, false)]
 	public abstract class GroupCore : IEnumerable, IEquatable<GroupCore>, IDisposable
 	{
