@@ -27,11 +27,11 @@ namespace Pixeye.Actors
     public int id;
     // internal byte age;
 
-    public ref readonly Transform transform
-    {
-      [MethodImpl(MethodImplOptions.AggressiveInlining)]
-      get => ref Entity.Transforms[id];
-    }
+    // public ref readonly Transform transform
+    // {
+    //   [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    //   get => ref Entity.Transforms[id];
+    // }
 
     public bool exist
     {

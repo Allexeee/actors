@@ -18,7 +18,7 @@ namespace Pixeye.Actors
 
 		static readonly int sizeEntityCache = UnsafeUtility.SizeOf<CacheEntity>();
 
-		public static Transform[] Transforms;
+		// public static Transform[] Transforms;
 		
 		public static CacheEntity* entities;
 
@@ -49,7 +49,7 @@ namespace Pixeye.Actors
 
 			lengthTotal = Framework.Settings.SizeEntities;
 			Generations = new int[Framework.Settings.SizeEntities, Framework.Settings.SizeGenerations];
-			Transforms  = new Transform[Framework.Settings.SizeEntities];
+			// Transforms  = new Transform[Framework.Settings.SizeEntities];
 
 			entities = (CacheEntity*) UnmanagedMemory.Alloc(sizeEntityCache * Framework.Settings.SizeEntities);
 
@@ -79,7 +79,7 @@ namespace Pixeye.Actors
 			{
 				var l = id << 1;
 				HelperArray.ResizeInt(ref Generations, l, Framework.Settings.SizeGenerations);
-				Array.Resize(ref Transforms, l);
+				// Array.Resize(ref Transforms, l);
 
 				entities = (CacheEntity*) UnmanagedMemory.ReAlloc(entities, sizeEntityCache * l);
 
@@ -111,40 +111,40 @@ namespace Pixeye.Actors
 		//===============================//
 		// Naming
 		//===============================//
-		static FastString fstr = new FastString(500);
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void RenameGameobject(this ent entity)
-		{
-			var tr = Transforms[entity.id];
-			if (tr != null)
-			{
-				var name             = tr.name;
-				var index            = tr.name.LastIndexOf(':');
-				if (index > -1) name = tr.name.Remove(0, index + 1);
-				var id               = entity.id;
-
-				name = name.Trim();
-				fstr.Clear();
-				fstr.Append($"{id.ToString().PadLeft(4, '0')}: ");
-
-				if (Framework.Settings.DebugNames)
-				{
-					fstr.Append("[ ");
-					for (int j = 0; j < entities[entity.id].componentsAmount; j++)
-					{
-						var storage = Storage.All[entities[entity.id].componentsIds[j]];
-						var lex     = j < entities[entity.id].componentsAmount - 1 ? " " : "";
-						fstr.Append($"{storage.GetComponentType().Name.Remove(0, 9)}{lex}");
-					}
-
-					fstr.Append(" ]: ");
-				}
-
-				fstr.Append(name);
-
-				tr.name = fstr.ToString();
-			}
-		}
+		// static FastString fstr = new FastString(500);
+		// [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		// public static void RenameGameobject(this ent entity)
+		// {
+		// 	var tr = Transforms[entity.id];
+		// 	if (tr != null)
+		// 	{
+		// 		var name             = tr.name;
+		// 		var index            = tr.name.LastIndexOf(':');
+		// 		if (index > -1) name = tr.name.Remove(0, index + 1);
+		// 		var id               = entity.id;
+		//
+		// 		name = name.Trim();
+		// 		fstr.Clear();
+		// 		fstr.Append($"{id.ToString().PadLeft(4, '0')}: ");
+		//
+		// 		if (Framework.Settings.DebugNames)
+		// 		{
+		// 			fstr.Append("[ ");
+		// 			for (int j = 0; j < entities[entity.id].componentsAmount; j++)
+		// 			{
+		// 				var storage = Storage.All[entities[entity.id].componentsIds[j]];
+		// 				var lex     = j < entities[entity.id].componentsAmount - 1 ? " " : "";
+		// 				fstr.Append($"{storage.GetComponentType().Name.Remove(0, 9)}{lex}");
+		// 			}
+		//
+		// 			fstr.Append(" ]: ");
+		// 		}
+		//
+		// 		fstr.Append(name);
+		//
+		// 		tr.name = fstr.ToString();
+		// 	}
+		// }
 		
 		static void Dispose()
 		{
