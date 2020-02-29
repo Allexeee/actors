@@ -94,16 +94,16 @@ namespace Pixeye.Actors
 			entities[id].componentsAmount = 0;
 
 			var ptrCache = &entities[id];
-			ptrCache->age      = age;
+			// ptrCache->age      = age;
 			ptrCache->isNested = isNested;
 			ptrCache->isPooled = isPooled;
 			// todo: need to refactor in future
 			// ptrCache->isDirty  = true;
-			ptrCache->isAlive  = true;
+			// ptrCache->isAlive  = true;
 
 			ent e;
 			e.id  = id;
-			e.age = age;
+			// e.age = age;
 			alive.Add(e);
 		}
 

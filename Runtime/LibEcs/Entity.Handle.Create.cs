@@ -15,17 +15,17 @@ namespace Pixeye.Actors
 			{
 				ref var pop = ref ent.entStack.source[--ent.entStack.length];
 				id = pop.id;
-				unchecked
-				{
-					age = (byte) (pop.age);
-				}
+				// unchecked
+				// {
+				// 	age = (byte) (pop.age);
+				// }
 			}
 			else
 				id = ent.lastID++;
 
 			ent entity;
 			entity.id  = id;
-			entity.age = age;
+			// entity.age = age;
 			Initialize(id, age);
 			// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
 			return entity;
@@ -40,17 +40,17 @@ namespace Pixeye.Actors
 			{
 				ref var pop = ref ent.entStack.source[--ent.entStack.length];
 				id = pop.id;
-				unchecked
-				{
-					age = (byte) (pop.age);
-				}
+				// unchecked
+				// {
+				// 	age = (byte) (pop.age);
+				// }
 			}
 			else
 				id = ent.lastID++;
 
 			ent entity;
 			entity.id  = id;
-			entity.age = age;
+			// entity.age = age;
 
 			Initialize(id, age, pooled);
 			Transforms[id] = pooled ? Obj.Spawn(Pool.Entities, prefabID, position) : Obj.Spawn(prefabID, position);
@@ -67,17 +67,17 @@ namespace Pixeye.Actors
 			{
 				ref var pop = ref ent.entStack.source[--ent.entStack.length];
 				id = pop.id;
-				unchecked
-				{
-					age = (byte) (pop.age);
-				}
+				// unchecked
+				// {
+				// 	age = (byte) (pop.age);
+				// }
 			}
 			else
 				id = ent.lastID++;
 
 			ent entity;
 			entity.id  = id;
-			entity.age = age;
+			// entity.age = age;
 			Initialize(id, age, pooled);
 			Transforms[id] = pooled ? Obj.Spawn(1, prefabID, parent, position, new Quaternion()) : Obj.Spawn(prefabID, parent, position, new Quaternion());
 			// EntityOperations.Set(in entity, -1, EntityOperations.Action.Activate);
@@ -93,17 +93,17 @@ namespace Pixeye.Actors
 			{
 				ref var pop = ref ent.entStack.source[--ent.entStack.length];
 				id = pop.id;
-				unchecked
-				{
-					age = (byte) (pop.age);
-				}
+				// unchecked
+				// {
+				// 	age = (byte) (pop.age);
+				// }
 			}
 			else
 				id = ent.lastID++;
 
 			ent entity;
 			entity.id  = id;
-			entity.age = age;
+			// entity.age = age;
 			Initialize(id, age, pooled);
 			Transforms[id] = pooled ? Obj.Spawn(1, prefab, parent, position) : Obj.Spawn(prefab, parent, position);
 			// EntityOperations.Set(in entity, -1, EntityOperations.Action.Activate);
@@ -118,10 +118,10 @@ namespace Pixeye.Actors
 			{
 				ref var pop = ref ent.entStack.source[--ent.entStack.length];
 				id = pop.id;
-				unchecked
-				{
-					age = (byte) (pop.age);
-				}
+				// unchecked
+				// {
+				// 	age = (byte) (pop.age);
+				// }
 			}
 			else
 				id = ent.lastID++;
@@ -129,7 +129,7 @@ namespace Pixeye.Actors
 
 			ent entity;
 			entity.id  = id;
-			entity.age = age;
+			// entity.age = age;
 
 
 			Initialize(id, age, pooled);
@@ -148,17 +148,17 @@ namespace Pixeye.Actors
 			{
 				ref var pop = ref ent.entStack.source[--ent.entStack.length];
 				id = pop.id;
-				unchecked
-				{
-					age = (byte) (pop.age);
-				}
+				// unchecked
+				// {
+				// 	age = (byte) (pop.age);
+				// }
 			}
 			else
 				id = ent.lastID++;
 
 			ent entity;
 			entity.id  = id;
-			entity.age = age;
+			// entity.age = age;
 
 			Initialize(id, age);
 			Transforms[id] = obj.transform;
@@ -175,17 +175,17 @@ namespace Pixeye.Actors
 			{
 				ref var pop = ref ent.entStack.source[--ent.entStack.length];
 				id = pop.id;
-				unchecked
-				{
-					age = (byte) (pop.age);
-				}
+				// unchecked
+				// {
+				// 	age = (byte) (pop.age);
+				// }
 			}
 			else
 				id = ent.lastID++;
 
 			ent entity;
 			entity.id  = id;
-			entity.age = age;
+			// entity.age = age;
 
 			Initialize(id, age);
 

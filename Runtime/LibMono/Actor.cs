@@ -48,16 +48,16 @@ namespace Pixeye.Actors
 			{
 				ref var pop = ref ent.entStack.source[--ent.entStack.length];
 				id = pop.id;
-				unchecked
-				{
-					age = (byte) (pop.age);
-				}
+				// unchecked
+				// {
+				// 	age = (byte) (pop.age);
+				// }
 			}
 			else
 				id = ent.lastID++;
 
 			entity.id  = id;
-			entity.age = age;
+			// entity.age = age;
 
 
 			#if UNITY_EDITOR

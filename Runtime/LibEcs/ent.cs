@@ -31,7 +31,7 @@ namespace Pixeye.Actors
     // Entity
     //===============================//
     public   int  id;
-    internal byte age;
+    // internal byte age;
 
     public ref readonly Transform transform
     {
@@ -42,18 +42,19 @@ namespace Pixeye.Actors
     public bool exist
     {
       [MethodImpl(MethodImplOptions.AggressiveInlining)]
-      get { return id > 0 && Entity.entities[id].isAlive && Entity.entities[id].age == age; }
+      get { return id > 0; /*&& Entity.entities[id].isAlive && Entity.entities[id].age == age;*/ }
     }
 
     public ent(int value)
     {
       id  = value;
-      age = 0;
+      // age = 0;
     }
 
+    //todo: проверить, где используется
     public override int GetHashCode()
     {
-      return ((id << 5) + id) ^ age;
+      return ((id << 5) + id) /*^ age*/;
     }
 
     public override string ToString()
@@ -80,7 +81,7 @@ namespace Pixeye.Actors
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Equals(ent other)
     {
-      return id == other.id && age == other.age;
+      return id == other.id/* && age == other.age*/;
     }
 
     public override bool Equals(object obj)
@@ -104,7 +105,7 @@ namespace Pixeye.Actors
 
     static public bool operator ==(ent arg1, ent arg2)
     {
-      return arg1.id == arg2.id && arg1.age == arg2.age;
+      return arg1.id == arg2.id/* && arg1.age == arg2.age*/;
     }
 
     public static bool operator !=(ent arg1, ent arg2)

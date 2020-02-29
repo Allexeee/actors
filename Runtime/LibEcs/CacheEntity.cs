@@ -11,13 +11,13 @@ namespace Pixeye.Actors
 	public unsafe struct CacheEntity
 	{
 		public ushort* componentsIds;
-		public byte age; // not cool. need to find way to change id directly in ents that released.
+		// public byte age; // not cool. need to find way to change id directly in ents that released.
 		public byte componentsAmount;
 		public byte length;
 		public bool isPooled;
 		public bool isNested;
 		// public bool isDirty;
-		public bool isAlive;
+		// public bool isAlive;
 
 		public CacheEntity(int size)
 		{
@@ -26,8 +26,8 @@ namespace Pixeye.Actors
 			isPooled         = false;
 			isNested         = false;
 			// isDirty          = false;
-			isAlive          = false;
-			age              = 0;
+			// isAlive          = false;
+			// age              = 0;
 			componentsAmount = 0;
 		}
 

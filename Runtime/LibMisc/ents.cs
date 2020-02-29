@@ -35,7 +35,7 @@ namespace Pixeye.Actors
 			for (var i = 0; i < length; i++)
 			{
 				ref var val = ref source[i];
-				if (entity.id == val.id && entity.age == val.age)
+				if (entity.id == val.id/* && entity.age == val.age*/)
 					return true;
 			}
 
@@ -72,7 +72,7 @@ namespace Pixeye.Actors
 			for (var i = 0; i < length; i++)
 			{
 				ref var val = ref source[i];
-				if (entity.id == val.id && entity.age == val.age)
+				if (entity.id == val.id /*&& entity.age == val.age*/)
 				{
 					index = i;
 					break;
