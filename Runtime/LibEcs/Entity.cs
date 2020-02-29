@@ -98,7 +98,7 @@ namespace Pixeye.Actors
 			ptrCache->isNested = isNested;
 			ptrCache->isPooled = isPooled;
 			// todo: need to refactor in future
-			ptrCache->isDirty  = true;
+			// ptrCache->isDirty  = true;
 			ptrCache->isAlive  = true;
 
 			ent e;
@@ -234,7 +234,7 @@ namespace Pixeye.Actors
 			if ((Generations[id, Storage<T>.Generation] & Storage<T>.ComponentMask) != Storage<T>.ComponentMask)
 			{
 				entities[id].Add(Storage<T>.componentId);
-				if (!entities[id].isDirty)
+				// if (!entities[id].isDirty)
 				{
 					//	Generations[id, Storage<T>.Generation] |= Storage<T>.ComponentMask;
 					// EntityOperations.Set(entity, Storage<T>.componentId, EntityOperations.Action.Add);
@@ -313,7 +313,7 @@ namespace Pixeye.Actors
 
 			entities[id].Add(Storage<T>.componentId);
 
-			if (!entities[id].isDirty)
+			// if (!entities[id].isDirty)
 			{
 				//Generations[id, Storage<T>.Generation] |= Storage<T>.ComponentMask;
 				// EntityOperations.Set(entity, Storage<T>.componentId, EntityOperations.Action.Add);
@@ -372,7 +372,7 @@ namespace Pixeye.Actors
 
 			entities[id].Add(Storage<T>.componentId);
 
-			if (!entities[id].isDirty)
+			// if (!entities[id].isDirty)
 			{
 				//	Generations[id, Storage<T>.Generation] |= Storage<T>.ComponentMask;
 				// EntityOperations.Set(entity, Storage<T>.componentId, EntityOperations.Action.Add);

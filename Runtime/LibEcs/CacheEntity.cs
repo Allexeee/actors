@@ -16,7 +16,7 @@ namespace Pixeye.Actors
 		public byte length;
 		public bool isPooled;
 		public bool isNested;
-		public bool isDirty;
+		// public bool isDirty;
 		public bool isAlive;
 
 		public CacheEntity(int size)
@@ -25,7 +25,7 @@ namespace Pixeye.Actors
 			length           = (byte) size;
 			isPooled         = false;
 			isNested         = false;
-			isDirty          = false;
+			// isDirty          = false;
 			isAlive          = false;
 			age              = 0;
 			componentsAmount = 0;
