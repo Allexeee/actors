@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Pixeye.Actors
 {
 	[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks | Option.DivideByZeroChecks, false)]
-	sealed unsafe class ProcessorEntities
+	public sealed unsafe class ProcessorEntities
 	{
 		static GroupCore[] groupsChecked = new GroupCore[Framework.Settings.SizeGroups];
 		static int groupsCheckedLen;
@@ -49,9 +49,9 @@ namespace Pixeye.Actors
 						for (int l = 0; l < storage.groups.length; l++)
 						{
 							var group = storage.groups.Elements[l];
-							if (!group.composition.Check(entityID))
-								group.TryRemove(entityID);
-							else group.Insert(operation.entity);
+							if (!group.composition.Check(entityID)) continue;
+								// group.TryRemove(entityID); 
+							group.Insert(operation.entity);
 						}
 
 						#if ACTORS_DEBUG
@@ -316,6 +316,56 @@ namespace Pixeye.Actors
 			Entity.alive.length = 0;
 			ent.entStack.length = 0;
 			ent.lastID          = 0;
+		}
+
+		public static void AddToEntities(ent entity, int componentId)
+		{
+			Entity.Generations[entity.id, Storage.Generations[componentId]] |= componentId;
+			Entity.entities[entity.id].Add(componentId);
+		}		
+		
+		public static void RemoveFromEntities(ent entity, int componentId)
+		{
+			Entity.Generations[entity.id, Storage.Generations[componentId]] &= ~componentId;
+			Entity.entities[entity.id].Remove(componentId);
+		}
+		
+		public static void RemoveComponent(ent entity, int componentId)
+		{
+			RemoveFromEntities(entity, componentId);
+			var typeConverted = (ushort) componentId;
+			var components    = Entity.entities[entity.id];
+
+			for (int tRemoveIndex = 0; tRemoveIndex < components.componentsAmount; tRemoveIndex++)
+			{
+				if (components.componentsIds[tRemoveIndex] == typeConverted)
+				{
+					// Storage.All[typeConverted].toDispose.Add(entityID);
+
+					for (int j = tRemoveIndex; j < components.componentsAmount - 1; ++j)
+						components.componentsIds[j] = components.componentsIds[j + 1];
+
+					components.componentsAmount--;
+
+					break;
+				}
+			}
+		}		
+		
+		public static void RemoveComponentsAll(ent entity)
+		{
+			var entityID = entity.id;
+			ref var entityCache = ref Entity.entities[entityID];
+
+			for (int j = 0; j < entityCache.componentsAmount; j++)
+			{
+				var componentID = entityCache.componentsIds[j];
+				var generation  = Storage.Generations[componentID];
+				var mask        = Storage.Masks[componentID];
+
+				Entity.Generations[entityID, generation] &= ~mask;
+				Storage.All[entityCache.componentsIds[j]].toDispose.Add(entityID);
+			}
 		}
 	}
 }

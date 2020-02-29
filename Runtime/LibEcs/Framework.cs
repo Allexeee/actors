@@ -59,8 +59,9 @@ namespace Pixeye.Actors
 	{
 		public GroupCore this[int index] => globals[index];
 
-		internal static GroupCore[] globals = new GroupCore[32];
-		internal static CacheGroup All = new CacheGroup();
+		public static GroupCore[] globals = new GroupCore[32];
+		public static int globalsLen = 0;
+		public static CacheGroup All = new CacheGroup();
 	}
 
 	struct LogType

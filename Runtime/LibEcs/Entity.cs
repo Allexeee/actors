@@ -23,7 +23,7 @@ namespace Pixeye.Actors
 		public static CacheEntity* entities;
 
 		internal static int lengthTotal;
-		internal static int[,] Generations;
+		public static int[,] Generations;
 
 		internal static ents alive;
 

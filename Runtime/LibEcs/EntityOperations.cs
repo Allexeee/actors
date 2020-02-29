@@ -38,7 +38,7 @@ namespace Pixeye.Actors
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal static void Set(in ent entity, int arg, Action action)
+		public static void Set(in ent entity, int arg, Action action)
 		{
 			if (len == operations.Length)
 				Array.Resize(ref operations, len << 1);

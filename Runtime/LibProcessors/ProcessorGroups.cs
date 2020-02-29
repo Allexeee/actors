@@ -75,10 +75,10 @@ namespace Pixeye.Actors
 			if (fieldObj != null)
 			{
 				group = fieldObj as GroupCore;
-				return groups.All.Add(CreateGroup(groupType, composition));
+				return groups.globals[groups.globalsLen++] = groups.All.Add(CreateGroup(groupType, composition));
 			}
 
-			return groups.All.Add(CreateGroup(groupType, composition));
+			return groups.globals[groups.globalsLen++] = groups.All.Add(CreateGroup(groupType, composition));
 		}
 
 		internal static GroupCore CreateGroup(Type groupType, Composition composition)

@@ -36,7 +36,7 @@ namespace Pixeye.Actors
 
 
 	[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks | Option.DivideByZeroChecks, false)]
-	public abstract class GroupCore : IEnumerable, IEquatable<GroupCore>, IDisposable
+	public abstract class    GroupCore : IEnumerable, IEquatable<GroupCore>, IDisposable
 	{
 		public ent[] entities = new ent[Framework.Settings.SizeEntities];
 		public int length;
@@ -45,7 +45,7 @@ namespace Pixeye.Actors
 		public ents removed = new ents(Framework.Settings.SizeEntities);
 
 
-		protected internal Composition composition;
+		public Composition composition;
 
 		internal int id;
 
@@ -77,7 +77,7 @@ namespace Pixeye.Actors
 		// Insert
 		//===============================//
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal void Insert(in ent entity)
+		public void Insert(in ent entity)
 		{
 			var left  = 0;
 			var index = 0;
@@ -99,23 +99,25 @@ namespace Pixeye.Actors
 			var consitionSort = right - 1;
 			if (consitionSort > -1 && entity.id < entities[consitionSort].id)
 			{
-				while (right > left)
-				{
-					var midIndex = (right + left) / 2;
+				index = HelperArray.BinarySearch(ref entities, entity.id, 0, length-1);
 
-					if (entities[midIndex].id == entity.id)
-					{
-						index = midIndex;
-						break;
-					}
-
-					if (entities[midIndex].id < entity.id)
-						left = midIndex + 1;
-					else
-						right = midIndex;
-
-					index = left;
-				}
+				// while (right > left)
+				// {
+				// 	var midIndex = (right + left) / 2;
+				//
+				// 	if (entities[midIndex].id == entity.id)
+				// 	{
+				// 		index = midIndex;
+				// 		break;
+				// 	}
+				//
+				// 	if (entities[midIndex].id < entity.id)
+				// 		left = midIndex + 1;
+				// 	else
+				// 		right = midIndex;
+				//
+				// 	index = left;
+				// }
 
 
 				Array.Copy(entities, index, entities, index + 1, length - index);
@@ -129,20 +131,30 @@ namespace Pixeye.Actors
 			}
 		}
 
+		public bool HasEntity(in ent entity, out int index)
+		{
+			index = -1;
+			if (length == 0) return false;
+
+			index = HelperArray.BinarySearch(ref entities, entity.id, 0, length-1);
+			if (index == -1) return false;
+			return true;
+		}
+
 
 		//===============================//
 		// Try Remove
 		//===============================//
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal void TryRemove(int entityID)
+		public void TryRemove(int entityID)
 		{
 			if (length == 0) return;
-
+		
 			var i = HelperArray.BinarySearch(ref entities, entityID, 0, length-1);
 			if (i == -1) return;
-
+		
 			removed.source[removed.length++] = entities[i];
-
+		
 			if (i < --length)
 				Array.Copy(entities, i + 1, entities, i, length - i);
 		}
@@ -152,7 +164,7 @@ namespace Pixeye.Actors
 		// Remove
 		//===============================//
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal void Remove(int i)
+		public void RemoveAt(int i)
 		{
 			removed.source[removed.length++] = entities[i];
 

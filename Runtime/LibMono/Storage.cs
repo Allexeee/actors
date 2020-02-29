@@ -17,11 +17,11 @@ namespace Pixeye.Actors
 	{
 		internal static Dictionary<int, int> typeNames = new Dictionary<int, int>(FastComparable.Default);
 		internal static int lastID;
-		internal static int[] Masks = new int[32];
-		internal static int[] Generations = new int[32];
-		internal static Storage[] All = new Storage[32];
+		public static int[] Masks = new int[32];
+		public static int[] Generations = new int[32];
+		public static Storage[] All = new Storage[32];
 
-		internal CacheGroup groups = new CacheGroup();
+		public CacheGroup groups = new CacheGroup();
 
 		internal indexes toDispose = new indexes(Framework.Settings.SizeEntities);
 

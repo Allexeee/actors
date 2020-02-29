@@ -33,6 +33,20 @@ namespace Pixeye.Actors
 
 			return ids.Length == match;
 		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public bool OverlapComponents(in ent entity)
+		{
+			var cache = Entity.entities[entity.id];
+			int match = 0;
+			for (int i = 0; i < cache.componentsAmount; i++)
+			{
+				if (includeComponents[cache.componentsIds[i]])
+					match++;
+			}
+
+			return ids.Length == match;
+		}
 
 		internal void AddTypesExclude(int[] types)
 		{
@@ -55,7 +69,7 @@ namespace Pixeye.Actors
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal bool Check(int entityID)
+		public bool Check(int entityID)
 		{
 			for (int ll = 0; ll < ids.Length; ll++)
 				if ((Entity.Generations[entityID, generations[ll]] & ids[ll]) != ids[ll])

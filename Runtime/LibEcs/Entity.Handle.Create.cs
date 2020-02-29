@@ -27,7 +27,7 @@ namespace Pixeye.Actors
 			entity.id  = id;
 			entity.age = age;
 			Initialize(id, age);
-			EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
+			// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
 			return entity;
 		}
 
