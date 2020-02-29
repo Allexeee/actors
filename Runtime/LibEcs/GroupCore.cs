@@ -405,7 +405,7 @@ namespace Pixeye.Actors
 		{
 			var gr = base.Initialize(composition);
 
-			Storage<T>.Instance.groups.Add(this);
+			// Storage<T>.Instance.groups.Add(this);
 
 			var len = 1;
 
@@ -425,8 +425,8 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			Storage<T>.Instance.groups.Add(this);
-			Storage<Y>.Instance.groups.Add(this);
+			// Storage<T>.Instance.groups.Add(this);
+			// Storage<Y>.Instance.groups.Add(this);
 
 			var len = 2;
 
@@ -449,9 +449,9 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			Storage<T>.Instance.groups.Add(this);
-			Storage<Y>.Instance.groups.Add(this);
-			Storage<U>.Instance.groups.Add(this);
+			// Storage<T>.Instance.groups.Add(this);
+			// Storage<Y>.Instance.groups.Add(this);
+			// Storage<U>.Instance.groups.Add(this);
 
 			var len = 3;
 
@@ -478,10 +478,10 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			Storage<T>.Instance.groups.Add(this);
-			Storage<Y>.Instance.groups.Add(this);
-			Storage<U>.Instance.groups.Add(this);
-			Storage<I>.Instance.groups.Add(this);
+			// Storage<T>.Instance.groups.Add(this);
+			// Storage<Y>.Instance.groups.Add(this);
+			// Storage<U>.Instance.groups.Add(this);
+			// Storage<I>.Instance.groups.Add(this);
 
 			var len = 4;
 
@@ -512,11 +512,11 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			Storage<T>.Instance.groups.Add(this);
-			Storage<Y>.Instance.groups.Add(this);
-			Storage<U>.Instance.groups.Add(this);
-			Storage<I>.Instance.groups.Add(this);
-			Storage<O>.Instance.groups.Add(this);
+			// Storage<T>.Instance.groups.Add(this);
+			// Storage<Y>.Instance.groups.Add(this);
+			// Storage<U>.Instance.groups.Add(this);
+			// Storage<I>.Instance.groups.Add(this);
+			// Storage<O>.Instance.groups.Add(this);
 			var len = 5;
 
 			composition.generations = new int[len];
@@ -547,12 +547,12 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			Storage<T>.Instance.groups.Add(this);
-			Storage<Y>.Instance.groups.Add(this);
-			Storage<U>.Instance.groups.Add(this);
-			Storage<I>.Instance.groups.Add(this);
-			Storage<O>.Instance.groups.Add(this);
-			Storage<P>.Instance.groups.Add(this);
+			// Storage<T>.Instance.groups.Add(this);
+			// Storage<Y>.Instance.groups.Add(this);
+			// Storage<U>.Instance.groups.Add(this);
+			// Storage<I>.Instance.groups.Add(this);
+			// Storage<O>.Instance.groups.Add(this);
+			// Storage<P>.Instance.groups.Add(this);
 
 			var len = 6;
 
@@ -591,13 +591,13 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			Storage<T>.Instance.groups.Add(this);
-			Storage<Y>.Instance.groups.Add(this);
-			Storage<U>.Instance.groups.Add(this);
-			Storage<I>.Instance.groups.Add(this);
-			Storage<O>.Instance.groups.Add(this);
-			Storage<P>.Instance.groups.Add(this);
-			Storage<A>.Instance.groups.Add(this);
+			// Storage<T>.Instance.groups.Add(this);
+			// Storage<Y>.Instance.groups.Add(this);
+			// Storage<U>.Instance.groups.Add(this);
+			// Storage<I>.Instance.groups.Add(this);
+			// Storage<O>.Instance.groups.Add(this);
+			// Storage<P>.Instance.groups.Add(this);
+			// Storage<A>.Instance.groups.Add(this);
 
 			var len = 7;
 
@@ -640,14 +640,14 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			Storage<T>.Instance.groups.Add(this);
-			Storage<Y>.Instance.groups.Add(this);
-			Storage<U>.Instance.groups.Add(this);
-			Storage<I>.Instance.groups.Add(this);
-			Storage<O>.Instance.groups.Add(this);
-			Storage<P>.Instance.groups.Add(this);
-			Storage<A>.Instance.groups.Add(this);
-			Storage<S>.Instance.groups.Add(this);
+			// Storage<T>.Instance.groups.Add(this);
+			// Storage<Y>.Instance.groups.Add(this);
+			// Storage<U>.Instance.groups.Add(this);
+			// Storage<I>.Instance.groups.Add(this);
+			// Storage<O>.Instance.groups.Add(this);
+			// Storage<P>.Instance.groups.Add(this);
+			// Storage<A>.Instance.groups.Add(this);
+			// Storage<S>.Instance.groups.Add(this);
 
 			var len = 8;
 
@@ -694,15 +694,15 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			Storage<T>.Instance.groups.Add(this);
-			Storage<Y>.Instance.groups.Add(this);
-			Storage<U>.Instance.groups.Add(this);
-			Storage<I>.Instance.groups.Add(this);
-			Storage<O>.Instance.groups.Add(this);
-			Storage<P>.Instance.groups.Add(this);
-			Storage<A>.Instance.groups.Add(this);
-			Storage<S>.Instance.groups.Add(this);
-			Storage<D>.Instance.groups.Add(this);
+			// Storage<T>.Instance.groups.Add(this);
+			// Storage<Y>.Instance.groups.Add(this);
+			// Storage<U>.Instance.groups.Add(this);
+			// Storage<I>.Instance.groups.Add(this);
+			// Storage<O>.Instance.groups.Add(this);
+			// Storage<P>.Instance.groups.Add(this);
+			// Storage<A>.Instance.groups.Add(this);
+			// Storage<S>.Instance.groups.Add(this);
+			// Storage<D>.Instance.groups.Add(this);
 			var len = 9;
 
 			composition.generations = new int[len];
@@ -752,16 +752,16 @@ namespace Pixeye.Actors
 		internal override GroupCore Initialize(Composition composition)
 		{
 			var gr = base.Initialize(composition);
-			Storage<T>.Instance.groups.Add(this);
-			Storage<Y>.Instance.groups.Add(this);
-			Storage<U>.Instance.groups.Add(this);
-			Storage<I>.Instance.groups.Add(this);
-			Storage<O>.Instance.groups.Add(this);
-			Storage<P>.Instance.groups.Add(this);
-			Storage<A>.Instance.groups.Add(this);
-			Storage<S>.Instance.groups.Add(this);
-			Storage<D>.Instance.groups.Add(this);
-			Storage<F>.Instance.groups.Add(this);
+			// Storage<T>.Instance.groups.Add(this);
+			// Storage<Y>.Instance.groups.Add(this);
+			// Storage<U>.Instance.groups.Add(this);
+			// Storage<I>.Instance.groups.Add(this);
+			// Storage<O>.Instance.groups.Add(this);
+			// Storage<P>.Instance.groups.Add(this);
+			// Storage<A>.Instance.groups.Add(this);
+			// Storage<S>.Instance.groups.Add(this);
+			// Storage<D>.Instance.groups.Add(this);
+			// Storage<F>.Instance.groups.Add(this);
 			var len = 10;
 
 			composition.generations = new int[len];

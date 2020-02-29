@@ -21,8 +21,6 @@ namespace Pixeye.Actors
 		public static int[] Generations = new int[32];
 		public static Storage[] All = new Storage[32];
 
-		public CacheGroup groups = new CacheGroup();
-
 		internal indexes toDispose = new indexes(Framework.Settings.SizeEntities);
 
 		internal abstract Type GetComponentType();
@@ -35,7 +33,6 @@ namespace Pixeye.Actors
 			{
 				All[i].Dispose(All[i].toDispose);
 				All[i].toDispose.length = 0;
-				All[i].groups.length    = 0;
 			}
 		}
 

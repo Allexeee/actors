@@ -64,7 +64,7 @@ namespace Pixeye.Actors
 			for (int i = 0; i < Storage.lastID; i++)
 			{
 				var t = excludeComponents[i];
-				if (t) Storage.All[i].groups.Add(g);
+				// if (t) Storage.All[i].groups.Add(g);
 			}
 		}
 
