@@ -9,7 +9,7 @@ namespace Pixeye.Actors
 		public static ent Create()
 		{
 			int  id;
-			byte age = 0;
+			// byte age = 0;
 
 			if (ent.entStack.length > 0)
 			{
@@ -26,7 +26,7 @@ namespace Pixeye.Actors
 			ent entity;
 			entity.id  = id;
 			// entity.age = age;
-			Initialize(id, age);
+			Initialize(id);
 			// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
 			return entity;
 		}
@@ -52,7 +52,7 @@ namespace Pixeye.Actors
 			entity.id  = id;
 			// entity.age = age;
 
-			Initialize(id, age, pooled);
+			Initialize(id, pooled);
 			Transforms[id] = pooled ? Obj.Spawn(Pool.Entities, prefabID, position) : Obj.Spawn(prefabID, position);
 
 			// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
@@ -78,7 +78,7 @@ namespace Pixeye.Actors
 			ent entity;
 			entity.id  = id;
 			// entity.age = age;
-			Initialize(id, age, pooled);
+			Initialize(id, pooled);
 			Transforms[id] = pooled ? Obj.Spawn(1, prefabID, parent, position, new Quaternion()) : Obj.Spawn(prefabID, parent, position, new Quaternion());
 			// EntityOperations.Set(in entity, -1, EntityOperations.Action.Activate);
 			return entity;
@@ -104,7 +104,7 @@ namespace Pixeye.Actors
 			ent entity;
 			entity.id  = id;
 			// entity.age = age;
-			Initialize(id, age, pooled);
+			Initialize(id, pooled);
 			Transforms[id] = pooled ? Obj.Spawn(1, prefab, parent, position) : Obj.Spawn(prefab, parent, position);
 			// EntityOperations.Set(in entity, -1, EntityOperations.Action.Activate);
 			return entity;
@@ -132,7 +132,7 @@ namespace Pixeye.Actors
 			// entity.age = age;
 
 
-			Initialize(id, age, pooled);
+			Initialize(id, pooled);
 			Transforms[id] = pooled ? Obj.Spawn(Pool.Entities, prefab, position) : Obj.Spawn(prefab, position);
 
 			// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
@@ -142,7 +142,6 @@ namespace Pixeye.Actors
 		public static ent CreateFor(GameObject obj)
 		{
 			int  id;
-			byte age = 0;
 
 			if (ent.entStack.length > 0)
 			{
@@ -160,7 +159,7 @@ namespace Pixeye.Actors
 			entity.id  = id;
 			// entity.age = age;
 
-			Initialize(id, age);
+			Initialize(id);
 			Transforms[id] = obj.transform;
 			// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
 			return entity;
@@ -169,7 +168,6 @@ namespace Pixeye.Actors
 		public static ent CreateFor(string name)
 		{
 			int  id;
-			byte age = 0;
 
 			if (ent.entStack.length > 0)
 			{
@@ -187,7 +185,7 @@ namespace Pixeye.Actors
 			entity.id  = id;
 			// entity.age = age;
 
-			Initialize(id, age);
+			Initialize(id);
 
 			Transforms[id] = GameObject.Find(name).transform;
 			// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);

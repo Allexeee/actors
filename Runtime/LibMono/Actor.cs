@@ -42,7 +42,6 @@ namespace Pixeye.Actors
 		public void Launch()
 		{
 			int  id;
-			byte age = 0;
 
 			if (ent.entStack.length > 0)
 			{
@@ -65,7 +64,7 @@ namespace Pixeye.Actors
 			#endif
 
 
-			Entity.Initialize(id, age, isPooled);
+			Entity.Initialize(id, isPooled);
 			Entity.Transforms[id] = transform;
 
 			if (isActiveAndEnabled)

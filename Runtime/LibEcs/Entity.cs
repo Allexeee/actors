@@ -73,7 +73,7 @@ namespace Pixeye.Actors
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal static void Initialize(int id, byte age, bool isPooled = false, bool isNested = false)
+		internal static void Initialize(int id, bool isPooled = false, bool isNested = false)
 		{
 			if (id >= lengthTotal)
 			{
