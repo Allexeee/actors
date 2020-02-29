@@ -99,6 +99,15 @@ namespace Pixeye.Actors
       AddComponent(Storage<T>.componentId);
       
       Toolbox.Get<ProcessorAddComponents>().source.Insert(this);
+    }    
+    
+    public void Add<T>(T component) where T : class
+    {
+      Storage<T>.components[id] = component;
+
+      AddComponent(Storage<T>.componentId);
+      
+      Toolbox.Get<ProcessorAddComponents>().source.Insert(this);
     }
 
     public void Remove<T>() where T : class
