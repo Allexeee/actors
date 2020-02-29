@@ -25,29 +25,21 @@ namespace Pixeye.Actors
     // Entity
     //===============================//
     public int id;
-    // internal byte age;
 
-    // public ref readonly Transform transform
-    // {
-    //   [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    //   get => ref Entity.Transforms[id];
-    // }
-
-    public bool exist
+    public bool Exist
     {
       [MethodImpl(MethodImplOptions.AggressiveInlining)]
-      get { return id > 0; /*&& Entity.entities[id].isAlive && Entity.entities[id].age == age;*/ }
+      get => id > 0;
     }
 
-    public ent(int value)
+    private ent(int value)
     {
       id = value;
-      // age = 0;
     }
 
     public override int GetHashCode()
     {
-      return ((id << 5) + id) /*^ age*/;
+      return ((id << 5) + id);
     }
 
     public override string ToString()
@@ -58,7 +50,7 @@ namespace Pixeye.Actors
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Equals(ent other)
     {
-      return id == other.id /* && age == other.age*/;
+      return id == other.id;
     }
 
     public override bool Equals(object obj)
@@ -69,20 +61,20 @@ namespace Pixeye.Actors
     //===============================//
     // Operators
     //===============================//
-    static public implicit operator int(ent value)
+    public static implicit operator int(ent value)
     {
       return value.id;
     }
 
-    static public implicit operator ent(int value)
+    public static implicit operator ent(int value)
     {
       ent e = new ent(value);
       return e;
     }
 
-    static public bool operator ==(ent arg1, ent arg2)
+    public static bool operator ==(ent arg1, ent arg2)
     {
-      return arg1.id == arg2.id /* && arg1.age == arg2.age*/;
+      return arg1.id == arg2.id;
     }
 
     public static bool operator !=(ent arg1, ent arg2)

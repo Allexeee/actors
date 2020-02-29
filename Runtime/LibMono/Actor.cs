@@ -65,7 +65,7 @@ namespace Pixeye.Actors
 
 
 			Entity.Initialize(id, isPooled);
-			Entity.Transforms[id] = transform;
+			// Entity.Transforms[id] = transform;
 
 			if (isActiveAndEnabled)
 			{
@@ -77,7 +77,7 @@ namespace Pixeye.Actors
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		void IRequireStarter.Launch()
 		{
-			if (!entity.exist)
+			if (!entity.Exist)
 			{
 				Launch();
 			}
