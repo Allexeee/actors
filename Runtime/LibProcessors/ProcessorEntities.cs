@@ -301,13 +301,13 @@ namespace Pixeye.Actors
 
 			foreach (ent entity in Entity.alive)
 			{
-				ref var entityCache = ref Actors.Entity.entities[entity.id];
+				ref var entityCache = ref Entity.entities[entity.id];
 				
 				for (int i = 0; i < entityCache.componentsAmount; i++)
 					Storage.All[entityCache.componentsIds[i]].toDispose.Add(entity.id);
 
 				for (int ii = 0; ii < Framework.Settings.SizeGenerations; ii++)
-					Actors.Entity.Generations[entity.id, ii] = 0;
+					Entity.Generations[entity.id, ii] = 0;
 
 				entityCache.isAlive = false;
 				entityCache.componentsAmount = 0;

@@ -36,7 +36,7 @@ namespace Pixeye.Actors
 
 
 	[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks | Option.DivideByZeroChecks, false)]
-	public abstract class    GroupCore : IEnumerable, IEquatable<GroupCore>, IDisposable
+	public abstract class GroupCore : IEnumerable, IEquatable<GroupCore>, IDisposable
 	{
 		public ent[] entities = new ent[Framework.Settings.SizeEntities];
 		public int length;
@@ -100,25 +100,6 @@ namespace Pixeye.Actors
 			if (consitionSort > -1 && entity.id < entities[consitionSort].id)
 			{
 				index = HelperArray.BinarySearch(ref entities, entity.id, 0, length-1);
-
-				// while (right > left)
-				// {
-				// 	var midIndex = (right + left) / 2;
-				//
-				// 	if (entities[midIndex].id == entity.id)
-				// 	{
-				// 		index = midIndex;
-				// 		break;
-				// 	}
-				//
-				// 	if (entities[midIndex].id < entity.id)
-				// 		left = midIndex + 1;
-				// 	else
-				// 		right = midIndex;
-				//
-				// 	index = left;
-				// }
-
 
 				Array.Copy(entities, index, entities, index + 1, length - index);
 				entities[index] = entity;

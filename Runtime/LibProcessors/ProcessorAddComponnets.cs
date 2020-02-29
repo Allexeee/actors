@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace Pixeye.Actors
 {
-  public class ProcessorAddComponents : Processor<ComponentAddComponents>, ITick
+  public class ProcessorAddComponents : Processor, ITick
   {
+    public GroupManual source = new GroupManual();
     public void Tick(float delta)
     {
       foreach (var entity in source)

@@ -65,8 +65,8 @@ namespace Pixeye.Actors
 			#endif
 
 
-			Actors.Entity.Initialize(id, age, isPooled);
-			Actors.Entity.Transforms[id] = transform;
+			Entity.Initialize(id, age, isPooled);
+			Entity.Transforms[id] = transform;
 
 			if (isActiveAndEnabled)
 			{
