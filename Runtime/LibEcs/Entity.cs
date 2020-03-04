@@ -145,8 +145,22 @@ namespace Pixeye.Actors
 		// 		tr.name = fstr.ToString();
 		// 	}
 		// }
-		
-		static void Dispose()
+
+		public static void Clear()
+		{
+			Generations = new int[Framework.Settings.SizeEntities, Framework.Settings.SizeGenerations];
+
+			entities = (CacheEntity*) UnmanagedMemory.Alloc(sizeEntityCache * Framework.Settings.SizeEntities);
+
+			for (int i = 0; i < Framework.Settings.SizeEntities; i++)
+			{
+				entities[i] = new CacheEntity(6);
+			}
+
+			alive = new ents(Framework.Settings.SizeEntities);
+		}
+
+		public static void Dispose()
 		{
 			for (int i = 0; i < lengthTotal; i++)
 				Marshal.FreeHGlobal((IntPtr) entities[i].componentsIds);

@@ -12,20 +12,20 @@ namespace Pixeye.Actors
 	/// <para>Service locator</para>
 	/// </summary>
 	/// 
-	
+
 	// todo: redesign class.
 	public class Toolbox : Singleton<Toolbox>
 	{
-		[SerializeField]
-		Dictionary<int, object> data = new Dictionary<int, object>(5, new FastComparable());
+		[SerializeField] Dictionary<int, object> data = new Dictionary<int, object>(5, new FastComparable());
 
 		public static bool Contains<T>()
 		{
 			return Instance.data.ContainsKey(typeof(T).GetHashCode());
 		}
-		public static List<IDisposable> disposables = new List<IDisposable>(64);
-		public static Action OnDestroyAction = delegate { };
-		public static SceneCoroutine SceneCoroutine = Instance.gameObject.AddComponent<SceneCoroutine>();
+
+		public static List<IDisposable> disposables     = new List<IDisposable>(64);
+		public static Action            OnDestroyAction = delegate { };
+		public static SceneCoroutine    SceneCoroutine  = Instance.gameObject.AddComponent<SceneCoroutine>();
 
 
 		/// <summary>
@@ -48,7 +48,7 @@ namespace Pixeye.Actors
 			{
 				InitializeObject(created);
 			}
- 
+
 			Instance.data.Add(hash, created);
 
 			return created;
@@ -76,7 +76,7 @@ namespace Pixeye.Actors
 			var scriptable      = obj as ScriptableObject;
 			if (scriptable) add = Instantiate(scriptable);
 
-		 
+
 			InitializeObject(obj);
 			Instance.data.Add(obj.GetType().GetHashCode(), add);
 		}
@@ -104,13 +104,13 @@ namespace Pixeye.Actors
 			return hasValue ? (T) resolve : default(T);
 		}
 
-		internal void ClearSessionData()
+		public static void ClearSessionData()
 		{
 			if (applicationIsQuitting) return;
 
 			var toWipe = new List<int>();
 
-			foreach (var pair in data)
+			foreach (var pair in Instance.data)
 			{
 				if (!(pair.Value is IKernel))
 					toWipe.Add(pair.Key);
@@ -128,13 +128,13 @@ namespace Pixeye.Actors
 			Pool.Dispose();
 			Storage.DisposeSelf();
 			Framework.Cleanup();
-			ProcessorScene.Default.Dispose();
+			// ProcessorScene.Default.Dispose();
 			ProcessorUpdate.Default.Dispose();
 
 
 			for (var i = 0; i < toWipe.Count; i++)
 			{
-				data.Remove(toWipe[i]);
+				Instance.data.Remove(toWipe[i]);
 			}
 		}
 
@@ -163,5 +163,10 @@ namespace Pixeye.Actors
 			base.OnApplicationQuit();
 			OnDestroyAction();
 		}
-	}
+
+		public static void Clear()
+		{
+			Instance.data.Clear();
+		}
+}
 }

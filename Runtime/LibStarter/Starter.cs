@@ -20,21 +20,21 @@ namespace Pixeye.Actors
   /// </summary>
   public class Starter : MonoBehaviour
   {
-    public static bool initialized;
+    public static bool Initialized;
 
 #if ODIN_INSPECTOR
 		[FoldoutGroup("Setup")]
 #else
     [FoldoutGroup("Setup"), Reorderable]
 #endif
-    public List<SceneReference> ScenesToKeep = new List<SceneReference>();
+    public List<SceneReference> scenesToKeep = new List<SceneReference>();
 
 #if ODIN_INSPECTOR
 		[FoldoutGroup("Setup")]
 #else
     [FoldoutGroup("Setup"), Reorderable]
 #endif
-    public List<SceneReference> SceneDependsOn = new List<SceneReference>();
+    public List<SceneReference> sceneDependsOn = new List<SceneReference>();
 
     [FoldoutGroup("Pool Cache")] public List<PoolNode> nodes = new List<PoolNode>();
 
@@ -45,19 +45,20 @@ namespace Pixeye.Actors
         ProcessorUpdate.Create();
       }
 
-      ProcessorScene.Default.Setup(ScenesToKeep, SceneDependsOn, this);
+      BindScene();
+      // ProcessorScene.Default.Setup(scenesToKeep, sceneDependsOn, this);
     }
 
-    public static IEnumerable<Type> GetAllSubclassOf(Type parent)
-    {
-      foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
-      foreach (var t in a.GetTypes())
-      {
-        Debug.Log(t);
-        if (t.IsSubclassOf(parent))
-          yield return t;
-      }
-    }
+    // public static IEnumerable<Type> GetAllSubclassOf(Type parent)
+    // {
+    //   foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
+    //   foreach (var t in a.GetTypes())
+    //   {
+    //     Debug.Log(t);
+    //     if (t.IsSubclassOf(parent))
+    //       yield return t;
+    //   }
+    // }
 
 #if UNITY_EDITOR
     public void ClearNodes()
@@ -151,9 +152,9 @@ namespace Pixeye.Actors
 
     public void BindScene()
     {
-      ProcessorScene.Default.OnSceneLoad = delegate { };
-      ProcessorScene.Default.OnSceneClose = delegate { };
-      ProcessorScene.Default.OnSceneClose += Dispose;
+      // ProcessorScene.Default.OnSceneLoad = delegate { };
+      // ProcessorScene.Default.OnSceneClose = delegate { };
+      // ProcessorScene.Default.OnSceneClose += Dispose;
 
       // zero entity
       Entity.Create();
@@ -168,7 +169,7 @@ namespace Pixeye.Actors
       Setup();
 
 
-      initialized = true;
+      Initialized = true;
 
       var objs = FindObjectsOfType<MonoBehaviour>().OfType<IRequireStarter>();
       foreach (var obj in objs)
@@ -202,7 +203,7 @@ namespace Pixeye.Actors
 
     protected virtual void OnDestroy()
     {
-      initialized = false;
+      Initialized = false;
     }
 
     /// <summary>

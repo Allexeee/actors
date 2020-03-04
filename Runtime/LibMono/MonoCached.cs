@@ -19,14 +19,14 @@ namespace Pixeye.Actors
 		
 		void Awake()
 		{
-			if (!Starter.initialized || Toolbox.changingScene) return;
+			if (!Starter.Initialized || Toolbox.changingScene) return;
 			Setup();
 		}
 
 
 		void OnEnable()
 		{
-			if (!Starter.initialized || Toolbox.changingScene) return;
+			if (!Starter.Initialized || Toolbox.changingScene) return;
 			HandleEnable();
 		}
 
