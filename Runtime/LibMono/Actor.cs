@@ -53,7 +53,7 @@ namespace Pixeye.Actors
 				// }
 			}
 			else
-				id = ent.lastID++;
+				id = ++ent.lastID;
 
 			entity.id  = id;
 			// entity.age = age;

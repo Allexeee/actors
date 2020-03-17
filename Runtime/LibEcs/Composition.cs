@@ -34,9 +34,9 @@ namespace Pixeye.Actors
 		// }
 		
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public bool OverlapComponents(in ent entity)
+		public bool OverlapComponents(int entityId)
 		{
-			var cache = Entity.entities[entity.id];
+			var cache = Entity.entities[entityId];
 			int match = 0;
 			for (int i = 0; i < cache.componentsAmount; i++)
 			{

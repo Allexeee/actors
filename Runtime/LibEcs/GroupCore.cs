@@ -88,8 +88,11 @@ namespace Pixeye.Actors
 			var consitionSort = right - 1;
 			if (consitionSort > -1 && entity.id < entities[consitionSort].id)
 			{
-				index = HelperArray.BinarySearch(ref entities, entity.id, 0, length-1);
-
+				// debug.log($"{entity.id}, {consitionSort}, {entities[consitionSort].id}, {entities}");
+				HelperArray.BinarySearch(ref entities, entity.id, ref left, ref right);
+				index = left;
+				// //todo:костыль
+				// if(index == -1) return;
 				Array.Copy(entities, index, entities, index + 1, length - index);
 				entities[index] = entity;
 			}

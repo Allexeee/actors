@@ -1,5 +1,6 @@
 ﻿using System;
 using Pixeye.Actors;
+using UnityEngine;
 
 namespace Source.Runtime
 {
@@ -18,16 +19,18 @@ namespace Source.Runtime
       => ref Storage<ComponentAddComponents>.components[entity.id];
   }
 
-  sealed class StorageComponentAddComponents : Storage<ComponentAddComponents>
+  internal sealed class StorageComponentAddComponents : Storage<ComponentAddComponents>
   {
-    // public override ComponentAddComponents Create() => new ComponentAddComponents();
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void Setup() => Instance = new Storage<ComponentAddComponents>();
+
+    public override ComponentAddComponents Create() => new ComponentAddComponents();
 
     public override void Dispose(indexes disposed)
     {
       foreach (int id in disposed)
       {
         ref var component = ref components[id];
-        component.componentsId.Clear();
       }
     }
   }

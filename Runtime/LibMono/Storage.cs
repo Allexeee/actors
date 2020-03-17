@@ -53,10 +53,10 @@ namespace Pixeye.Actors
 		public static T[] components = new T[Framework.Settings.SizeEntities];
 		internal int componentsLen = 0;
 
-		static Storage()
-		{
-			Instance = new Storage<T>();
-		}
+		// static Storage()
+		// {
+		// 	Instance = new Storage<T>();
+		// }
 		
 		public Storage()
 		{
@@ -79,11 +79,11 @@ namespace Pixeye.Actors
 		}
 
 
-		// [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		// public virtual T Create()
-		// {
-		// 	return new T();
-		// }
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public virtual T Create()
+		{
+			return default;
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal override Type GetComponentType()

@@ -90,7 +90,7 @@ namespace Pixeye.Actors
 
       AddComponent(Storage<T>.componentId);
 
-      Toolbox.Get<ProcessorAddComponents>().source.Insert(this);
+      Toolbox.Get<ProcessorUpdateGroups>().SourceAdd.Add(this);
     }
 
     public void Add<T>(T component) where T : class
@@ -98,8 +98,8 @@ namespace Pixeye.Actors
       Storage<T>.components[id] = component;
 
       AddComponent(Storage<T>.componentId);
-
-      Toolbox.Get<ProcessorAddComponents>().source.Insert(this);
+      
+      Toolbox.Get<ProcessorUpdateGroups>().SourceAdd.Add(this);
     }
 
     public void Remove<T>() where T : class
@@ -110,9 +110,12 @@ namespace Pixeye.Actors
 
     public void Release()
     {
-      RemoveComponentsAll();
-      Toolbox.Get<ProcessorReleaseEntity>().source.Insert(this);
-      id = 0;
+      // RemoveComponentsAll();
+      // entStack.Add(this);
+      debug.log($"Release {id}");
+      Toolbox.Get<ProcessorUpdateGroups>().SourceRelease.Add(this);
+      // Toolbox.Get<ProcessorReleaseEntity>().source.Insert(this);
+      // id = 0;
     }
 
     private void AddComponent(int componentId)

@@ -157,7 +157,7 @@ namespace Pixeye.Actors
       // ProcessorScene.Default.OnSceneClose += Dispose;
 
       // zero entity
-      Entity.Create();
+      // Entity.Create();
 
 
       for (int i = 0; i < nodes.Count; i++)
