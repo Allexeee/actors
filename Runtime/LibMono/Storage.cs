@@ -6,114 +6,83 @@ Date:       7/25/2018 11:49 AM
 ================================================================*/
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.IL2CPP.CompilerServices;
 
 namespace Pixeye.Actors
 {
-	[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks | Option.DivideByZeroChecks, false)]
-	public abstract class Storage
-	{
-		internal static Dictionary<int, int> typeNames = new Dictionary<int, int>(FastComparable.Default);
-		internal static int lastID;
-		public static int[] Masks = new int[32];
-		public static int[] Generations = new int[32];
-		public static Storage[] All = new Storage[32];
+  [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks | Option.DivideByZeroChecks, false)]
+  public abstract class Storage
+  {
+    public static Storage[] All = new Storage[32];
 
-		internal indexes toDispose = new indexes(Framework.Settings.SizeEntities);
+    public readonly int ComponentId;
+    public readonly int Generation;
+    public readonly int ComponentMask;
 
-		internal abstract Type GetComponentType();
+    private static    int     _lastId;
+    internal readonly indexes toDispose = new indexes(Framework.Settings.SizeEntities);
 
-		internal static void DisposeSelf()
-		{
-			//	GroupInt
+    internal abstract Type GetComponentType();
 
-			for (int i = 0; i < lastID; i++)
-			{
-				All[i].Dispose(All[i].toDispose);
-				All[i].toDispose.length = 0;
-			}
-		}
+    internal static void DisposeSelf()
+    {
+      //	GroupInt
 
-		public virtual void Dispose(indexes disposed)
-		{
-		}
-	}
+      for (int i = 0; i < _lastId; i++)
+      {
+        All[i].Dispose(All[i].toDispose);
+        // All[i].toDispose.length = 0;
+      }
+    }
 
+    public Storage()
+    {
+      if (_lastId == All.Length)
+      {
+        var l = _lastId << 1;
+        Array.Resize(ref All, l);
+      }
 
-	[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks | Option.DivideByZeroChecks, false)]
-	public class Storage<T> : Storage
-	{
-		public static Storage<T> Instance;
-		public static int componentId;
-		// internal static int ComponentMask;
-		internal static int Generation;
+      ComponentId      = _lastId++;
+      All[ComponentId] = this;
 
-		public static T[] components = new T[Framework.Settings.SizeEntities];
-		internal int componentsLen = 0;
+      ComponentMask = 1 << (ComponentId % 32);
+      Generation    = ComponentId / 32;
+    }
 
-		// static Storage()
-		// {
-		// 	Instance = new Storage<T>();
-		// }
-		
-		public Storage()
-		{
-			if (lastID == All.Length)
-			{
-				var l = lastID << 1;
-				Array.Resize(ref All, l);
-				Array.Resize(ref Masks, l);
-				Array.Resize(ref Generations, l);
-			}
-
-			componentId      = lastID++;
-			All[componentId] = this;
-
-			// Masks[componentId]       = ComponentMask = 1 << (componentId % 32);
-			Generations[componentId] = Generation    = componentId / 32;
-
-			// add componentID by type for exclude injection
-			typeNames.Add(typeof(T).GetHashCode(), componentId);
-		}
+    internal virtual void Dispose(indexes disposed)
+    {
+      
+    }
+  }
 
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public virtual T Create()
-		{
-			return default;
-		}
+  [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks | Option.DivideByZeroChecks, false)]
+  public class Storage<T> : Storage where T: class, new()
+  {
+    public static readonly Storage<T> Instance = new Storage<T>();
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal override Type GetComponentType()
-		{
-			return typeof(T);
-		}
+    public static readonly T[] Components = new T[Framework.Settings.SizeEntities];
 
-		// [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		// public static ref T Get(int entityID)
-		// {
-		// 	if (entityID >= components.Length)
-		// 		Array.Resize(ref components, entityID << 1);
-		//
-		//
-		// 	#if !ACTORS_COMPONENTS_STRUCTS
-		// 	ref var val = ref components[entityID];
-		// 	if (val == null)
-		// 		val = Instance.Create();
-		// 	#endif
-		//
-		// 	return ref components[entityID];
-		// }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public virtual T Create()
+    {
+      return new T();
+    }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal override Type GetComponentType()
+    {
+      return typeof(T);
+    }
 
-		// #if !ACTORS_COMPONENTS_STRUCTS
-		// [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		// public T TryGet(int entityID)
-		// {
-		// 	return (Entity.Generations[entityID, Generation] & ComponentMask) == ComponentMask ? components[entityID] : default;
-		// }
-		// #endif
-	}
+    internal override void Dispose(indexes disposed)
+    {
+      foreach (var index in disposed)
+      {
+        Components[index] = null;
+      }
+    }
+  }
 }

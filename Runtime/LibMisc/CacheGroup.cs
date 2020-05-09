@@ -38,7 +38,7 @@ namespace Pixeye.Actors
 				var instance = container.Elements[i];
 				if (t != instance.GetType()) continue;
 
-				if (instance.composition.hash.value == composition.hash.value)
+				if (instance.composition.Hash.value == composition.Hash.value)
 				{
 					group = instance;
 					return true;

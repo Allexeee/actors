@@ -7,9 +7,9 @@ namespace Pixeye.Actors
   public class ProcessorUpdateGroups : Processor, ITick
   {
     // public GroupManual source = new GroupManual();
-    public readonly List<ent> SourceAdd = new List<ent>(256);
-    public readonly List<ent> SourceRemove = new List<ent>(256);
-    public readonly List<ent> SourceRelease= new List<ent>(256);
+    public static readonly List<ent> SourceAdd = new List<ent>(256);
+    public static readonly List<ent> SourceRemove = new List<ent>(256);
+    public static readonly List<ent> SourceRelease= new List<ent>(256);
     
     private readonly List<ent> _sourceAdded = new List<ent>(256);
     

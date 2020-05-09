@@ -22,7 +22,7 @@ namespace Pixeye.Actors
 
 		public int GetHashCode(GroupManual obj)
 		{
-			return obj.composition.hash;
+			return obj.composition.Hash;
 		}
 	}
 

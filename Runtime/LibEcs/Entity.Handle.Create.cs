@@ -23,7 +23,7 @@ namespace Pixeye.Actors
 			else
 				id = ++ent.lastID;
 
-			ent entity;
+			ent entity = new ent();
 			entity.id  = id;
 			// entity.age = age;
 			Initialize(id);

@@ -1,38 +1,15 @@
-﻿using System;
-using Pixeye.Actors;
-using UnityEngine;
+﻿using Pixeye.Actors;
 
 namespace Source.Runtime
 {
   public class ComponentReleaseEntity
   {
-  }
-
-  #region HELPERS
-
-  public static partial class Component
-  {
-    public const string ReleaseEntity = "Pixeye.Source.ComponentReleaseEntity";
-
-    public static ref ComponentReleaseEntity ComponentReleaseEntity(in this ent entity)
-      => ref Storage<ComponentReleaseEntity>.components[entity.id];
-  }
-
-  internal sealed class StorageComponentReleaseEntity : Storage<ComponentReleaseEntity>
-  {
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    static void Setup() => Instance = new Storage<ComponentReleaseEntity>();
-
-    public override ComponentReleaseEntity Create() => new ComponentReleaseEntity();
-
-    public override void Dispose(indexes disposed)
+    internal sealed class StorageComponentReleaseEntity : Storage<ComponentReleaseEntity>
     {
-      foreach (int id in disposed)
+      static StorageComponentReleaseEntity()
       {
-        ref var component = ref components[id];
+        // Instance = new Storage<ComponentReleaseEntity>();
       }
     }
   }
-
-  #endregion
 }

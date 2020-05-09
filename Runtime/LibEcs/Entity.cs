@@ -101,7 +101,7 @@ namespace Pixeye.Actors
 			// ptrCache->isDirty  = true;
 			// ptrCache->isAlive  = true;
 
-			ent e;
+			ent e = new ent();
 			e.id  = id;
 			// e.age = age;
 			alive.Add(e);

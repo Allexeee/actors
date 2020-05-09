@@ -8,4 +8,11 @@ namespace Pixeye.Actors
 		{
 		}
 	}
+	
+	public class RemovedAttribute : Attribute
+	{
+		public RemovedAttribute()
+		{
+		}
+	}
 }

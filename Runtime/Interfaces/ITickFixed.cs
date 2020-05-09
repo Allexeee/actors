@@ -5,7 +5,7 @@ namespace Pixeye.Actors{
 
 public interface ITickFixed  {
 
-    void TickFixed(float delta);
+    void TickFixed(float deltaFixed);
 
 }
 }

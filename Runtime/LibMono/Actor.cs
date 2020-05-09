@@ -16,7 +16,7 @@ namespace Pixeye.Actors
 	[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks | Option.DivideByZeroChecks, false)]
 	public class Actor : MonoBehaviour, IRequireStarter
 	{
-		public ent entity;
+		public ent entity = new ent();
 
 		#if UNITY_EDITOR
 		[FoldoutGroup("Main"), SerializeField, ReadOnly]
@@ -77,7 +77,7 @@ namespace Pixeye.Actors
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		void IRequireStarter.Launch()
 		{
-			if (!entity.Exist)
+			if (!entity.Exist())
 			{
 				Launch();
 			}
@@ -87,6 +87,12 @@ namespace Pixeye.Actors
 		// Create methods
 		//===============================//
 
+		public static T Create<T>(T actor, Vector3 pos) where T : Actor
+		{
+			return Actor.Create(actor.gameObject, pos) as T;
+		}
+
+		
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Actor Create(GameObject prefab, Vector3 position = default, bool pooled = false)
 		{

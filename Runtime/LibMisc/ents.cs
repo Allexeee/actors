@@ -10,268 +10,262 @@ using UnityEngine;
 
 namespace Pixeye.Actors
 {
-	[Serializable]
-	public class ents : IEnumerable
-	{
-		public ent[] source;
-		public int length;
+  [Serializable]
+  public class ents : IEnumerable
+  {
+    public ent[] source;
+    public int   length;
 
-		public ref ent this[int index]
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get => ref source[index];
-		}
-
-
-		public ents(int cap = 0)
-		{
-			source = new ent[cap > 0 ? cap : 5];
-			length = 0;
-		}
-
-		[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
-		public bool Has(in ent entity)
-		{
-			for (var i = 0; i < length; i++)
-			{
-				ref var val = ref source[i];
-				if (entity.id == val.id/* && entity.age == val.age*/)
-					return true;
-			}
-
-			return false;
-		}
-
-		[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
-		public void Add(in ent entity)
-		{
-			if (length >= source.Length)
-				Array.Resize(ref source, length << 1);
-
-			source[length++] = entity;
-		}
-
-		[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
-		public void Add(params ent[] entity)
-		{
-			foreach (var e in entity)
-			{
-				if (length >= source.Length)
-					Array.Resize(ref source, length << 1);
-
-				source[length++] = e;
-			}
-		}
+    public ref ent this[int index]
+    {
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      get => ref source[index];
+    }
 
 
-		[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
-		public bool Remove(in ent entity)
-		{
-			var index = -1;
+    public ents(int cap = 0)
+    {
+      source = new ent[cap > 0 ? cap : 5];
+      length = 0;
+    }
 
-			for (var i = 0; i < length; i++)
-			{
-				ref var val = ref source[i];
-				if (entity.id == val.id /*&& entity.age == val.age*/)
-				{
-					index = i;
-					break;
-				}
-			}
+    [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
+    public bool Has(in ent entity)
+    {
+      for (var i = 0; i < length; i++)
+      {
+        ref var val = ref source[i];
+        if (entity.id == val.id /* && entity.age == val.age*/)
+          return true;
+      }
 
-			var removed = index > -1;
-			if (removed && index < --length)
-				Array.Copy(source, index + 1, source, index, length - index);
-			return removed;
-		}
+      return false;
+    }
 
-		[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
-		public void RemoveAt(int index)
-		{
-			Array.Copy(source, index + 1, source, index, --length - index);
-		}
+    [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
+    public void Add(ent entity)
+    {
+      if (length >= source.Length)
+        Array.Resize(ref source, length << 1);
 
+      source[length++] = entity;
+    }
 
-		#region ENUMERATOR
-
-		public Enumerator GetEnumerator()
-		{
-			return new Enumerator(this);
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+    [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
+    public void Add(params ent[] entity)
+    {
+      foreach (var e in entity)
+      {
+        Add(entity);
+      }
+    }
 
 
-		public struct Enumerator : IEnumerator<ent>
-		{
-			ents g;
-			int position;
+    [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
+    public bool Remove(in ent entity)
+    {
+      var index = -1;
+
+      for (var i = 0; i < length; i++)
+      {
+        ref var val = ref source[i];
+        if (entity.id == val.id /*&& entity.age == val.age*/)
+        {
+          index = i;
+          break;
+        }
+      }
+
+      var removed = index > -1;
+      if (removed && index < --length)
+        Array.Copy(source, index + 1, source, index, length - index);
+      return removed;
+    }
+
+    [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
+    public void RemoveAt(int index)
+    {
+      Array.Copy(source, index + 1, source, index, --length - index);
+    }
 
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			internal Enumerator(ents g)
-			{
-				position = g.length;
-				this.g   = g;
-			}
+    #region ENUMERATOR
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			public bool MoveNext()
-			{
-				return --position >= 0;
-			 
-			}
+    public Enumerator GetEnumerator()
+    {
+      return new Enumerator(this);
+    }
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			public void Reset()
-			{
-				position = g.length;
-			}
-
-			object IEnumerator.Current => Current;
-
-			public ent Current
-			{
-				[MethodImpl(MethodImplOptions.AggressiveInlining)]
-				get { return g.source[position]; }
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			public void Dispose()
-			{
-				 
-				g = null;
-			}
-		}
-
-		#endregion
-	}
-
-	[Serializable]
-	public class indexes : IEnumerable
-	{
-		public int[] source;
-		public int length;
-
-		public int this[int index]
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get => source[index];
-		}
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return GetEnumerator();
+    }
 
 
-		public indexes(int cap = 0)
-		{
-			source = new int[cap > 0 ? cap : 5];
-			length = 0;
-		}
+    public struct Enumerator : IEnumerator<ent>
+    {
+      ents g;
+      int  position;
 
 
-		[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
-		public void Add(int id)
-		{
-			if (length >= source.Length)
-				Array.Resize(ref source, length << 1);
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      internal Enumerator(ents g)
+      {
+        position = g.length;
+        this.g   = g;
+      }
 
-			source[length++] = id;
-		}
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      public bool MoveNext()
+      {
+        return --position >= 0;
+      }
 
-		[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
-		public void Add(params int[] ids)
-		{
-			foreach (var id in ids)
-			{
-				if (length >= source.Length)
-					Array.Resize(ref source, length << 1);
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      public void Reset()
+      {
+        position = g.length;
+      }
 
-				source[length++] = id;
-			}
-			 
-		}
+      object IEnumerator.Current => Current;
 
-		public void Clear()
-		{
-			//source = new int[source.Length];
-			length = 0;
-		}
+      public ent Current
+      {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get { return g.source[position]; }
+      }
 
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      public void Dispose()
+      {
+        g = null;
+      }
+    }
 
-		[Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
-		public bool Remove(int id)
-		{
-			var index = -1;
-			for (var i = 0; i < length; i++)
-			{
-				if (id == source[i])
-				{
-					index = i;
-					break;
-				}
-			}
+    #endregion
+  }
 
-			var removed = index > -1;
-			if (removed && index < --length)
-				Array.Copy(source, index + 1, source, index, length - index);
-			return removed;
-		}
+  [Serializable]
+  public class indexes : IEnumerable
+  {
+    public int[] source;
+    public int   length;
 
-
-		#region ENUMERATOR
-
-		public Enumerator GetEnumerator()
-		{
-			return new Enumerator(this);
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+    public int this[int index]
+    {
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      get => source[index];
+    }
 
 
-		public struct Enumerator : IEnumerator<int>
-		{
-			indexes g;
-			int position;
+    public indexes(int cap = 0)
+    {
+      source = new int[cap > 0 ? cap : 5];
+      length = 0;
+    }
 
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			internal Enumerator(indexes g)
-			{
-				position = g.length;
-				this.g   = g;
-			}
+    [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
+    public void Add(int id)
+    {
+      if (length >= source.Length)
+        Array.Resize(ref source, length << 1);
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			public bool MoveNext()
-			{
-				return --position >= 0;
-			}
+      source[length++] = id;
+    }
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			public void Reset()
-			{
-				position = g.length;
-			}
+    [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
+    public void Add(params int[] ids)
+    {
+      foreach (var id in ids)
+      {
+        if (length >= source.Length)
+          Array.Resize(ref source, length << 1);
 
-			object IEnumerator.Current => Current;
+        source[length++] = id;
+      }
+    }
 
-			public int Current
-			{
-				[MethodImpl(MethodImplOptions.AggressiveInlining)]
-				get { return g.source[position]; }
-			}
+    public void Clear()
+    {
+      //source = new int[source.Length];
+      length = 0;
+    }
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			public void Dispose()
-			{
-				g = null;
-			}
-		}
 
-		#endregion
-	}
+    [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
+    public bool Remove(int id)
+    {
+      var index = -1;
+      for (var i = 0; i < length; i++)
+      {
+        if (id == source[i])
+        {
+          index = i;
+          break;
+        }
+      }
+
+      var removed = index > -1;
+      if (removed && index < --length)
+        Array.Copy(source, index + 1, source, index, length - index);
+      return removed;
+    }
+
+
+    #region ENUMERATOR
+
+    public Enumerator GetEnumerator()
+    {
+      return new Enumerator(this);
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return GetEnumerator();
+    }
+
+
+    public struct Enumerator : IEnumerator<int>
+    {
+      indexes g;
+      int     position;
+
+
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      internal Enumerator(indexes g)
+      {
+        position = g.length;
+        this.g   = g;
+      }
+
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      public bool MoveNext()
+      {
+        return --position >= 0;
+      }
+
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      public void Reset()
+      {
+        position = g.length;
+      }
+
+      object IEnumerator.Current => Current;
+
+      public int Current
+      {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get { return g.source[position]; }
+      }
+
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      public void Dispose()
+      {
+        g = null;
+      }
+    }
+
+    #endregion
+  }
 }

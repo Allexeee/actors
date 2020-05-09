@@ -5,105 +5,153 @@ using System;
 
 namespace Pixeye.Actors
 {
-	public abstract class Processor : IDisposable
-	{
-		protected Processor()
-		{
-			if (Framework.Processors.length == Framework.Processors.storage.Length)
-				Array.Resize(ref Framework.Processors.storage, Framework.Processors.length << 1);
+  public abstract class Processor : IDisposable
+  {
+    protected Processor()
+    {
+      if (Framework.Processors.length == Framework.Processors.storage.Length)
+        Array.Resize(ref Framework.Processors.storage, Framework.Processors.length << 1);
 
-			Framework.Processors.storage[Framework.Processors.length++] = this;
-			ProcessorUpdate.AddProc(this);
-			ProcessorGroups.Setup(this);
-			Toolbox.disposables.Add(this);
-		}
+      Framework.Processors.storage[Framework.Processors.length++] = this;
+      ProcessorUpdate.AddProc(this);
+      ProcessorGroups.Setup(this);
+      Toolbox.disposables.Add(this);
+    }
 
-		public void Dispose()
-		{
-			ProcessorUpdate.RemoveProc(this);
-			OnDispose();
-		}
+    public void Dispose()
+    {
+      ProcessorUpdate.RemoveProc(this);
+      OnDispose();
+    }
 
-	 
-		//===============================//
-		// Events
-		//===============================//
- 	
-		public virtual void HandleEvents()
-		{
-		}
 
-		protected virtual void OnDispose()
-		{
-		}
+    //===============================//
+    // Events
+    //===============================//
 
-	}
+    public virtual void HandleEvents()
+    {
+    }
 
-	#region PROCESSORS
+    protected virtual void OnDispose()
+    {
+    }
+  }
 
-	public abstract class Processor<T> : Processor
-	{
-		[InnerGroupAttribute]
-		public Group<T> source = default;
-	}
+  #region PROCESSORS
 
-	public abstract class Processor<T, Y> : Processor
-	{
-		[InnerGroupAttribute]
-		public Group<T, Y> source = default;
-	}
+  public abstract class Processor<T> : Processor
+    where T : class, new()
+  {
+    [InnerGroupAttribute] public Group<T> source = default;
+  }
 
-	public abstract class Processor<T, Y, U> : Processor
-	{
-		[InnerGroupAttribute]
-		public Group<T, Y, U> source = default;
-	}
+  public abstract class Processor<T, Y> : Processor
+    where T : class, new()
+    where Y : class, new()
+  {
+    [InnerGroupAttribute] public Group<T, Y> source = default;
+  }
 
-	public abstract class Processor<T, Y, U, I> : Processor
-	{
-		[InnerGroupAttribute]
-		public Group<T, Y, U, I> source = default;
-	}
+  public abstract class Processor<T, Y, U> : Processor
+    where T : class, new()
+    where Y : class, new()
+    where U : class, new()
+  {
+    [InnerGroupAttribute] public Group<T, Y, U> source = default;
+  }
 
-	public abstract class Processor<T, Y, U, I, O> : Processor
-	{
-		[InnerGroupAttribute]
-		public Group<T, Y, U, I, O> source = default;
-	}
+  public abstract class Processor<T, Y, U, I> : Processor
+    where T : class, new()
+    where Y : class, new()
+    where U : class, new()
+    where I : class, new()
+  {
+    [InnerGroupAttribute] public Group<T, Y, U, I> source = default;
+  }
 
-	public abstract class Processor<T, Y, U, I, O, P> : Processor
-	{
-		[InnerGroupAttribute]
-		public Group<T, Y, U, I, O, P> source = default;
-	}
+  public abstract class Processor<T, Y, U, I, O> : Processor
+    where T : class, new()
+    where Y : class, new()
+    where U : class, new()
+    where I : class, new()
+    where O : class, new()
 
-	public abstract class Processor<T, Y, U, I, O, P, A> : Processor
-	{
-		[InnerGroupAttribute]
-		public Group<T, Y, U, I, O, P, A> source = default;
-	}
+  {
+    [InnerGroupAttribute] public Group<T, Y, U, I, O> source = default;
+  }
 
-	public abstract class Processor<T, Y, U, I, O, P, A, S> : Processor
-	{
-		[InnerGroupAttribute]
-		public Group<T, Y, U, I, O, P, A, S> source = default;
-	}
+  public abstract class Processor<T, Y, U, I, O, P> : Processor
+    where T : class, new()
+    where Y : class, new()
+    where U : class, new()
+    where I : class, new()
+    where O : class, new()
+    where P : class, new()
 
-	public abstract class Processor<T, Y, U, I, O, P, A, S, D> : Processor
-	{
-		[InnerGroupAttribute]
-		public Group<T, Y, U, I, O, P, A, S, D> source = default;
-	}
+  {
+    [InnerGroupAttribute] public Group<T, Y, U, I, O, P> source = default;
+  }
 
-	public abstract class Processor<T, Y, U, I, O, P, A, S, D, F> : Processor
-	{
-		[InnerGroupAttribute]
-		public Group<T, Y, U, I, O, P, A, S, D, F> source = default;
-	}
+  public abstract class Processor<T, Y, U, I, O, P, A> : Processor
+    where T : class, new()
+    where Y : class, new()
+    where U : class, new()
+    where I : class, new()
+    where O : class, new()
+    where P : class, new()
+    where A : class, new()
 
-	#endregion
+  {
+    [InnerGroupAttribute] public Group<T, Y, U, I, O, P, A> source = default;
+  }
 
-	class InnerGroupAttribute : Attribute
-	{
-	}
+  public abstract class Processor<T, Y, U, I, O, P, A, S> : Processor
+    where T : class, new()
+    where Y : class, new()
+    where U : class, new()
+    where I : class, new()
+    where O : class, new()
+    where P : class, new()
+    where A : class, new()
+    where S : class, new()
+
+  {
+    [InnerGroupAttribute] public Group<T, Y, U, I, O, P, A, S> source = default;
+  }
+
+  public abstract class Processor<T, Y, U, I, O, P, A, S, D> : Processor
+    where T : class, new()
+    where Y : class, new()
+    where U : class, new()
+    where I : class, new()
+    where O : class, new()
+    where P : class, new()
+    where A : class, new()
+    where S : class, new()
+    where D : class, new()
+  {
+    [InnerGroupAttribute] public Group<T, Y, U, I, O, P, A, S, D> source = default;
+  }
+
+  public abstract class Processor<T, Y, U, I, O, P, A, S, D, F> : Processor
+    where T : class, new()
+    where Y : class, new()
+    where U : class, new()
+    where I : class, new()
+    where O : class, new()
+    where P : class, new()
+    where A : class, new()
+    where S : class, new()
+    where D : class, new()
+    where F : class, new()
+  {
+    [InnerGroupAttribute] public Group<T, Y, U, I, O, P, A, S, D, F> source = default;
+  }
+
+  #endregion
+
+  class InnerGroupAttribute : Attribute
+  {
+  }
 }

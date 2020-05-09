@@ -63,6 +63,7 @@ namespace Pixeye.Actors
 		public static int globalsLen = 0;
 		public static CacheGroup All = new CacheGroup();
 		public static CacheGroup Added = new CacheGroup();
+		public static CacheGroup Removed = new CacheGroup();
 	}
 
 	struct LogType

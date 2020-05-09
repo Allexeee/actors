@@ -199,10 +199,10 @@ namespace Pixeye.Actors
     void FixedUpdate()
     {
       if (Toolbox.changingScene) return;
-      var delta = time.deltaFixed;
+      var deltaFixed = time.deltaFixed;
       for (var i = 0; i < countTicksFixed; i++)
       {
-        ticksFixed[i].TickFixed(delta);
+        ticksFixed[i].TickFixed(deltaFixed);
         // ProcessorEntities.Tick(delta);
       }
     }

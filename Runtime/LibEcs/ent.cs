@@ -11,25 +11,30 @@ using UnityEngine;
 namespace Pixeye.Actors
 {
   [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
-  public unsafe struct ent
+  public unsafe class ent
   {
     //===============================//
     // Released entities
     //===============================//
 
     internal static ents entStack = new ents(Framework.Settings.SizeEntities);
-    internal static int  size     = sizeof(ent);
-    internal static int  lastID;
+
+    // internal static int  size     = sizeof(ent);
+    internal static int lastID;
 
     //===============================//
     // Entity
     //===============================//
     public int id;
 
-    public bool Exist
+    // public bool Exist
+    // {
+    //   [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    //   get => id > 0;
+    // }
+
+    public ent()
     {
-      [MethodImpl(MethodImplOptions.AggressiveInlining)]
-      get => id > 0;
     }
 
     private ent(int value)
@@ -84,28 +89,28 @@ namespace Pixeye.Actors
 
     public void Add<T>(out T component) where T : class, new()
     {
-      component = Storage<T>.components[id];
+      component = Storage<T>.Components[id];
       if (component == null)
-        component = Storage<T>.components[id] = new T();
-
-      AddComponent(Storage<T>.componentId);
-
-      Toolbox.Get<ProcessorUpdateGroups>().SourceAdd.Add(this);
+      {
+        component = Storage<T>.Components[id] = new T();
+        ProcessorUpdateGroups.SourceAdd.Add(this);
+        AddComponent(Storage<T>.Instance.ComponentId);
+      }
     }
 
-    public void Add<T>(T component) where T : class
+    public void Add<T>(T component) where T : class, new()
     {
-      Storage<T>.components[id] = component;
+      Storage<T>.Components[id] = component;
 
-      AddComponent(Storage<T>.componentId);
-      
-      Toolbox.Get<ProcessorUpdateGroups>().SourceAdd.Add(this);
+      AddComponent(Storage<T>.Instance.ComponentId);
+
+      ProcessorUpdateGroups.SourceAdd.Add(this);
     }
 
-    public void Remove<T>() where T : class
+    public void Remove<T>() where T : class, new()
     {
-      RemoveComponent(Storage<T>.componentId);
-      Toolbox.Get<ProcessorRemoveComponents>().source.Insert(this);
+      RemoveComponent(Storage<T>.Instance.ComponentId);
+      ProcessorUpdateGroups.SourceRemove.Add(this);
     }
 
     public void Release()
@@ -113,23 +118,23 @@ namespace Pixeye.Actors
       // RemoveComponentsAll();
       // entStack.Add(this);
       debug.log($"Release {id}");
-      Toolbox.Get<ProcessorUpdateGroups>().SourceRelease.Add(this);
+      ProcessorUpdateGroups.SourceRelease.Add(this);
       // Toolbox.Get<ProcessorReleaseEntity>().source.Insert(this);
       // id = 0;
     }
 
     private void AddComponent(int componentId)
     {
-      Entity.Generations[id, Storage.Generations[componentId]] |= componentId;
+      Entity.Generations[id, Storage.All[componentId].Generation] |= Storage.All[componentId].ComponentMask;
       Entity.entities[id].Add(componentId);
     }
 
     private void RemoveComponent(int componentId)
     {
-      Entity.Generations[id, Storage.Generations[componentId]] &= ~componentId;
+      Entity.Generations[id, Storage.All[componentId].Generation] &= ~Storage.All[componentId].ComponentMask;
       Entity.entities[id].Remove(componentId);
 
-      Storage.All[componentId].toDispose.Add(id);
+      // Storage.All[componentId].toDispose.Add(id);
     }
 
     private void RemoveComponentsAll()
@@ -138,12 +143,12 @@ namespace Pixeye.Actors
 
       for (int j = 0; j < entityCache.componentsAmount; j++)
       {
-        var componentID = entityCache.componentsIds[j];
-        var generation  = Storage.Generations[componentID];
-        var mask        = Storage.Masks[componentID];
-
-        Entity.Generations[id, generation] &= ~mask;
-        Storage.All[entityCache.componentsIds[j]].toDispose.Add(id);
+        // var componentID = entityCache.componentsIds[j];
+        // var generation  = Storage.Generations[componentID];
+        // var mask        = Storage.Masks[componentID];
+        //
+        // Entity.Generations[id, generation] &= ~mask;
+        // Storage.All[entityCache.componentsIds[j]].toDispose.Add(id);
       }
     }
 
@@ -151,16 +156,25 @@ namespace Pixeye.Actors
     // Utils
     //===============================//
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool Has(int componentId)
+    {
+      return (Entity.Generations[id, Storage.All[componentId].Generation] & Storage.All[componentId].ComponentMask) == Storage.All[componentId].ComponentMask;
+    }
+
     [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Has<T>()
+      where T : class, new()
     {
-      return (Entity.Generations[id, Storage<T>.Generation] & Storage<T>.componentId) == Storage<T>.componentId;
+      return (Entity.Generations[id, Storage<T>.Instance.Generation] & Storage<T>.Instance.ComponentMask) == Storage<T>.Instance.ComponentMask;
     }
 
     [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Has<T, Y>()
+      where T : class, new()
+      where Y : class, new()
     {
       return Has<T>() && Has<Y>();
     }
@@ -168,8 +182,19 @@ namespace Pixeye.Actors
     [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Has<T, Y, U>()
+      where T : class, new()
+      where Y : class, new()
+      where U : class, new()
     {
       return Has<T>() && Has<Y>() && Has<U>();
+    }
+  }
+
+  public static class EntityHelper
+  {
+    public static bool Exist(this ent entity)
+    {
+      return !ReferenceEquals(entity, null) && entity.id != 0;
     }
   }
 }
