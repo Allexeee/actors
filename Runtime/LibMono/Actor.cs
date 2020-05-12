@@ -67,8 +67,9 @@ namespace Pixeye.Actors
 			Entity.Initialize(id, isPooled);
 			// Entity.Transforms[id] = transform;
 
-			if (isActiveAndEnabled)
+			// if (isActiveAndEnabled)
 			{
+				// debug.log("setup");
 					Setup();
 					// EntityOperations.Set(entity, -1, EntityOperations.Action.Activate);
 			}
@@ -77,8 +78,11 @@ namespace Pixeye.Actors
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		void IRequireStarter.Launch()
 		{
+			// debug.log("Ireq");
 			if (!entity.Exist())
 			{
+				// debug.log("Ireq not exist");
+
 				Launch();
 			}
 		}
@@ -87,9 +91,9 @@ namespace Pixeye.Actors
 		// Create methods
 		//===============================//
 
-		public static T Create<T>(T actor, Vector3 pos) where T : Actor
+		public static T Create<T>(T actor, Transform parent = default, Vector3 pos = default) where T : Actor
 		{
-			return Actor.Create(actor.gameObject, pos) as T;
+			return Actor.Create(actor.gameObject, parent, pos) as T;
 		}
 
 		

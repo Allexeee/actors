@@ -15,4 +15,11 @@ namespace Pixeye.Actors
 		{
 		}
 	}
+	
+	public class ReleasedAttribute : Attribute
+	{
+		public ReleasedAttribute()
+		{
+		}
+	}
 }

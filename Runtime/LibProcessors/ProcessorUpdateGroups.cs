@@ -12,6 +12,8 @@ namespace Pixeye.Actors
     public static readonly List<ent> SourceRelease= new List<ent>(256);
     
     private readonly List<ent> _sourceAdded = new List<ent>(256);
+    private readonly List<ent> _sourceRemoved = new List<ent>(256);
+    private readonly List<ent> _sourceReleased = new List<ent>(256);
     
     public void Tick(float delta)
     {
@@ -25,7 +27,29 @@ namespace Pixeye.Actors
         }
       }
       
+      foreach (var entity in _sourceRemoved)
+      {
+        for (int i = 0; i < groups.Removed.length; i++)
+        {
+          var group = groups.Removed.Elements[i];
+          if (group.HasEntity(entity, out var index))
+            group.RemoveAt(index);
+        }
+      }      
+      
+      foreach (var entity in _sourceReleased)
+      {
+        for (int i = 0; i < groups.Released.length; i++)
+        {
+          var group = groups.Released.Elements[i];
+          if (group.HasEntity(entity, out var index))
+            group.RemoveAt(index);
+        }
+      }
+      
       _sourceAdded.Clear();
+      _sourceRemoved.Clear();
+      _sourceReleased.Clear();
       
       
       foreach (var entity in SourceRelease)
@@ -35,6 +59,17 @@ namespace Pixeye.Actors
           var group = groups.globals[l];
           if (group.HasEntity(entity, out var index))
             group.RemoveAt(index);
+        }
+        
+        for (int i = 0; i < groups.Released.length; i++)
+        {
+          var group = groups.Released.Elements[i];
+          if (!group.HasEntity(entity, out var index))
+            if (group.composition.OverlapComponents(entity.id))
+            {
+              group.Insert(entity);
+              _sourceReleased.Add(entity);
+            }
         }
       }
       
@@ -62,13 +97,23 @@ namespace Pixeye.Actors
       
       foreach (var entity in SourceRemove)
       {
-        var entityId = entity.id;
         for (int l = 0; l < groups.globalsLen; l++)
         {
           var group = groups.globals[l];
           if (group.HasEntity(entity, out var index))
             if (!group.composition.OverlapComponents(entity.id))
               group.RemoveAt(index);
+        }
+        
+        for (int i = 0; i < groups.Removed.length; i++)
+        {
+          var group = groups.Removed.Elements[i];
+          if (!group.HasEntity(entity, out var index))
+            if (group.composition.OverlapComponents(entity.id))
+            {
+              group.Insert(entity);
+              _sourceRemoved.Add(entity);
+            }
         }
       }
 

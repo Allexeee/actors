@@ -117,8 +117,10 @@ namespace Pixeye.Actors
     {
       // RemoveComponentsAll();
       // entStack.Add(this);
-      debug.log($"Release {id}");
+      // debug.log($"Release {id}");
+      ProcessorUpdateGroups.SourceRemove.Add(this);
       ProcessorUpdateGroups.SourceRelease.Add(this);
+
       // Toolbox.Get<ProcessorReleaseEntity>().source.Insert(this);
       // id = 0;
     }
@@ -143,6 +145,7 @@ namespace Pixeye.Actors
 
       for (int j = 0; j < entityCache.componentsAmount; j++)
       {
+        RemoveComponent(entityCache.componentsIds[j]);
         // var componentID = entityCache.componentsIds[j];
         // var generation  = Storage.Generations[componentID];
         // var mask        = Storage.Masks[componentID];

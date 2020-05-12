@@ -31,8 +31,8 @@ namespace Pixeye.Actors
           var inner = Attribute.GetCustomAttribute(myFieldInfo, typeof(InnerGroupAttribute)) as InnerGroupAttribute;
 
           var groupAddedAttribute = Attribute.GetCustomAttribute(myFieldInfo, typeof(AddedAttribute)) as AddedAttribute;
-          var groupRemovedAttribute =
-            Attribute.GetCustomAttribute(myFieldInfo, typeof(RemovedAttribute)) as RemovedAttribute;
+          var groupRemovedAttribute = Attribute.GetCustomAttribute(myFieldInfo, typeof(RemovedAttribute)) as RemovedAttribute;
+          var groupReleasedAttribute = Attribute.GetCustomAttribute(myFieldInfo, typeof(ReleasedAttribute)) as ReleasedAttribute;
 
           // if group is located inside of the base processor use processor filtering 
           var bindAttribute = inner != null
@@ -54,6 +54,13 @@ namespace Pixeye.Actors
             if (!groups.Removed.TryGetValue(groupType, composition, out group))
             {
               group = groups.Removed.Add(CreateGroup(groups.Removed, myFieldInfo.FieldType, composition));
+            }
+          }
+          else if (groupReleasedAttribute != null)
+          {
+            if (!groups.Released.TryGetValue(groupType, composition, out group))
+            {
+              group = groups.Released.Add(CreateGroup(groups.Released, myFieldInfo.FieldType, composition));
             }
           }
 
