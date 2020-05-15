@@ -67,7 +67,7 @@ namespace Pixeye.Actors
 
     public override string ToString()
     {
-      return $"Group len: {length} composition: {composition}";
+      return $"len: {length} composition: {composition}";
     }
 
 
