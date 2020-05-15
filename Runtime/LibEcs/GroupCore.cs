@@ -65,6 +65,11 @@ namespace Pixeye.Actors
       return this;
     }
 
+    public override string ToString()
+    {
+      return $"Group len: {length} composition: {composition}";
+    }
+
 
     //===============================//
     // Insert

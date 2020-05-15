@@ -46,5 +46,10 @@ namespace Pixeye.Actors
     {
       return obj is Composition other && Equals(other);
     }
+
+    public override string ToString()
+    {
+      return $"Composition {Hash} ids {ComponentsIds}";
+    }
   }
 }

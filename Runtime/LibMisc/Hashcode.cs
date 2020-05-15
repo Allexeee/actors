@@ -47,5 +47,9 @@ namespace Pixeye.Actors
 			return temp;
 		}
 
+		public override string ToString()
+		{
+			return $"HashCode {value}";
+		}
 	}
 }

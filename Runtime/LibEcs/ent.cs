@@ -27,6 +27,9 @@ namespace Pixeye.Actors
     //===============================//
     public int id;
 
+    public indexes wasInGroupAdded = new indexes();
+    public indexes wasInGroupRemoved = new indexes();
+
     // public bool Exist
     // {
     //   [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -87,7 +90,7 @@ namespace Pixeye.Actors
       return !(arg1 == arg2);
     }
 
-    public void Add<T>(out T component) where T : class, new()
+    public void AddGet<T>(out T component) where T : class, new()
     {
       component = Storage<T>.Components[id];
       if (component == null)

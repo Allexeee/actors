@@ -88,6 +88,16 @@ namespace Pixeye.Actors
       Array.Copy(source, index + 1, source, index, --length - index);
     }
 
+    public override string ToString()
+    {
+      var s = "";
+      for (int i = 0; i < length; i++)
+      {
+        s += $"{source[i]} ";
+      }
+
+      return $"len: {length} | {s}|";
+    }
 
     #region ENUMERATOR
 
@@ -185,7 +195,19 @@ namespace Pixeye.Actors
         source[length++] = id;
       }
     }
+    
+    [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks, false)]
+    public bool Has(int id)
+    {
+      for (var i = 0; i < length; i++)
+      {
+        ref var val = ref source[i];
+        if (id == val /* && entity.age == val.age*/)
+          return true;
+      }
 
+      return false;
+    }
     public void Clear()
     {
       //source = new int[source.Length];
@@ -211,7 +233,17 @@ namespace Pixeye.Actors
         Array.Copy(source, index + 1, source, index, length - index);
       return removed;
     }
+    
+    public override string ToString()
+    {
+      var s = "";
+      for (int i = 0; i < length; i++)
+      {
+        s += $"{source[i]} ";
+      }
 
+      return $"len: {length} | {s}|";
+    }
 
     #region ENUMERATOR
 
