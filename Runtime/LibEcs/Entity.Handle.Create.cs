@@ -11,9 +11,9 @@ namespace Pixeye.Actors
 			int  id;
 			// byte age = 0;
 
-			if (ent.entStack.length > 0)
+			if (ent.entStack.Count > 0)
 			{
-				ref var pop = ref ent.entStack.source[--ent.entStack.length];
+				var pop = ent.entStack.Peek();
 				id = pop.id;
 				// unchecked
 				// {

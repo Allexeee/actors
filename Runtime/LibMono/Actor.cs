@@ -23,8 +23,8 @@ namespace Pixeye.Actors
 		internal int _entity;
 		#endif
 
-		[FoldoutGroup("Main")]
-		public bool isPooled;
+		// [FoldoutGroup("Main")]
+		// public bool isPooled;
 		
 
 		/// <summary>
@@ -41,30 +41,31 @@ namespace Pixeye.Actors
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public void Launch()
 		{
-			int  id;
+			// int  id;
+			//
+			// if (ent.entStack.length > 0)
+			// {
+			// 	ref var pop = ref ent.entStack.source[--ent.entStack.length];
+			// 	id = pop.id;
+			// 	// unchecked
+			// 	// {
+			// 	// 	age = (byte) (pop.age);
+			// 	// }
+			// }
+			// else
+			// 	id = ++ent.lastID;
+			//
+			// entity.id  = id;
+			// // entity.age = age;
 
-			if (ent.entStack.length > 0)
-			{
-				ref var pop = ref ent.entStack.source[--ent.entStack.length];
-				id = pop.id;
-				// unchecked
-				// {
-				// 	age = (byte) (pop.age);
-				// }
-			}
-			else
-				id = ++ent.lastID;
-
-			entity.id  = id;
-			// entity.age = age;
-
+			entity = Entity.Create();
 
 			#if UNITY_EDITOR
-			_entity = id;
+			_entity = entity.id;
 			#endif
 
 
-			Entity.Initialize(id, isPooled);
+			// Entity.Initialize(id, isPooled);
 			// Entity.Transforms[id] = transform;
 
 			// if (isActiveAndEnabled)
@@ -103,7 +104,7 @@ namespace Pixeye.Actors
 			var tr    = pooled ? Obj.Spawn(Pool.Entities, prefab, position) : Obj.Spawn(prefab, position);
 			var actor = tr.AddGetActor();
 
-			actor.isPooled = pooled;
+			// actor.isPooled = pooled;
 			actor.Launch();
 
 			return actor;
@@ -114,7 +115,7 @@ namespace Pixeye.Actors
 			var tr    = pooled ? Obj.Spawn(Pool.Entities, prefab, parent, position) : Obj.Spawn(prefab, parent, position);
 			var actor = tr.AddGetActor();
 
-			actor.isPooled = pooled;
+			// actor.isPooled = pooled;
 			actor.Launch();
 
 			return actor;
@@ -126,7 +127,7 @@ namespace Pixeye.Actors
 			var tr    = pooled ? Obj.Spawn(Pool.Entities, prefabID, position) : Obj.Spawn(prefabID, position);
 			var actor = tr.AddGetActor();
 
-			actor.isPooled = pooled;
+			// actor.isPooled = pooled;
 			actor.Launch();
 
 			return actor;

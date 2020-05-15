@@ -64,12 +64,12 @@ namespace Pixeye.Actors
 			return group;
 		}
 
-		public static void Dispose(this CacheGroup container)
-		{
-			for (int i = 0; i < container.length; i++)
-				container.Elements[i].Dispose();
-			
-			container.length = 0;
-		}
+		// public static void Dispose(this CacheGroup container)
+		// {
+		// 	for (int i = 0; i < container.length; i++)
+		// 		container.Elements[i].Dispose();
+		// 	
+		// 	container.length = 0;
+		// }
 	}
 }

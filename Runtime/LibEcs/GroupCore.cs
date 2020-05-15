@@ -27,10 +27,11 @@ namespace Pixeye.Actors
   }
 
   [Il2CppSetOption(Option.NullChecks | Option.ArrayBoundsChecks | Option.DivideByZeroChecks, false)]
-  public class GroupCore : IEnumerable, IEquatable<GroupCore>, IDisposable
+  public class GroupCore : IEnumerable, IEquatable<GroupCore>
   {
-    public ent[] entities = new ent[Framework.Settings.SizeEntities];
-    public int   length;
+    public List<ent> entities = new List<ent>(Framework.Settings.SizeEntities);
+    // public ent[] entities = new ent[Framework.Settings.SizeEntities];
+    // public int   length;
 
     public Composition composition;
 
@@ -39,18 +40,18 @@ namespace Pixeye.Actors
     int position;
 
 
-    public ref ent this[int index]
+    public ent this[int index]
     {
       [MethodImpl(MethodImplOptions.AggressiveInlining)]
-      get => ref entities[index];
+      get => entities[index];
     }
 
 
-    public void Release(int index)
-    {
-      if (length == 0) return;
-      entities[index].Release();
-    }
+    // public void Release(int index)
+    // {
+    //   if (length == 0) return;
+    //   entities[index].Release();
+    // }
 
     protected void CompositionAdd<T>() where T : class, new()
     {
@@ -67,7 +68,7 @@ namespace Pixeye.Actors
 
     public override string ToString()
     {
-      return $"len: {length} composition: {composition}";
+      return $"{composition}";
     }
 
 
@@ -77,44 +78,50 @@ namespace Pixeye.Actors
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Insert(in ent entity)
     {
-      var left  = 0;
-      var index = 0;
-      var right = length++;
-
-      // todo: сделать как проверку в редакторе
-      if (entity.id >= entities.Length)
+      int index = entities.BinarySearch(entity);
+      if (index < 0)
       {
-        Array.Resize(ref entities, entity.id << 1);
+        entities.Insert(~index, entity);
       }
-      else if (length >= entities.Length)
-      {
-        Array.Resize(ref entities, length << 1);
-      }
-
-      var consitionSort = right - 1;
-      if (consitionSort > -1 && entity.id < entities[consitionSort].id)
-      {
-        // debug.log($"{entity.id}, {consitionSort}, {entities[consitionSort].id}, {entities}");
-        HelperArray.BinarySearch(ref entities, entity.id, ref left, ref right);
-        index = left;
-        // //todo:костыль
-        // if(index == -1) return;
-        Array.Copy(entities, index, entities, index + 1, length - index);
-        entities[index] = entity;
-      }
-      else
-      {
-        entities[right] = entity;
-      }
+      // var left  = 0;
+      // var index = 0;
+      // var right = length++;
+      //
+      // // // todo: сделать как проверку в редакторе
+      // // if (entity.id >= entities.Length)
+      // // {
+      // //   Array.Resize(ref entities, entity.id << 1);
+      // // }
+      // // else if (length >= entities.Length)
+      // // {
+      // //   Array.Resize(ref entities, length << 1);
+      // // }
+      //
+      // var consitionSort = right - 1;
+      // if (consitionSort > -1 && entity.id < entities[consitionSort].id)
+      // {
+      //   // debug.log($"{entity.id}, {consitionSort}, {entities[consitionSort].id}, {entities}");
+      //   HelperArray.BinarySearch(ref entities, entity.id, ref left, ref right);
+      //   index = left;
+      //   // //todo:костыль
+      //   // if(index == -1) return;
+      //   Array.Copy(entities, index, entities, index + 1, length - index);
+      //   entities[index] = entity;
+      // }
+      // else
+      // {
+      //   entities[right] = entity;
+      // }
     }
 
     public bool HasEntity(in ent entity, out int index)
     {
       index = -1;
-      if (length == 0) return false;
+      if (entities.Count == 0) return false;
 
-      index = HelperArray.BinarySearch(ref entities, entity.id, 0, length - 1);
-      if (index == -1) return false;
+      index = entities.BinarySearch(entity);
+      // index = HelperArray.BinarySearch(ref entities, entity.id, 0, length - 1);
+      if (index < 0) return false;
       return true;
     }
 
@@ -124,171 +131,172 @@ namespace Pixeye.Actors
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void RemoveAt(int i)
     {
-      if (i < --length)
-        Array.Copy(entities, i + 1, entities, i, length - i);
+      entities.RemoveAt(i);
+      // if (i < --length)
+      //   Array.Copy(entities, i + 1, entities, i, length - i);
     }
 
 
-    public virtual void Dispose()
-    {
-      //parallel
-      if (segmentGroups != null)
-        for (int i = 0; i < segmentGroups.Length; i++)
-        {
-          var d = segmentGroups[i];
-          d.thread.Interrupt();
-          d.thread.Join(5);
-          syncs[i].Close();
-          segmentGroups[i] = null;
-        }
+    // public virtual void Dispose()
+    // {
+    //   //parallel
+    //   if (segmentGroups != null)
+    //     for (int i = 0; i < segmentGroups.Length; i++)
+    //     {
+    //       var d = segmentGroups[i];
+    //       d.thread.Interrupt();
+    //       d.thread.Join(5);
+    //       syncs[i].Close();
+    //       segmentGroups[i] = null;
+    //     }
+    //
+    //   segmentGroupLocal = null;
+    // }
 
-      segmentGroupLocal = null;
-    }
-
-    //===============================//
-    // Concurrent
-    //===============================//
-
-    SegmentGroup       segmentGroupLocal;
-    SegmentGroup[]     segmentGroups;
-    ManualResetEvent[] syncs;
-
-
-    int threadsAmount        = Environment.ProcessorCount - 1;
-    int entitiesPerThreadMin = 5000;
-    int entitiesPerThread;
-
-    HandleSegmentGroup jobAction;
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void MakeConcurrent(int minEntities, int threads, HandleSegmentGroup jobAction)
-    {
-      this.jobAction = jobAction;
-
-      segmentGroupLocal        = new SegmentGroup();
-      segmentGroupLocal.source = this;
-
-
-      segmentGroups = new SegmentGroup[threadsAmount];
-      syncs         = new ManualResetEvent[threadsAmount];
-
-      for (int i = 0; i < threadsAmount; i++)
-      {
-        ref var nextSegment = ref segmentGroups[i];
-        nextSegment                     = new SegmentGroup();
-        nextSegment.thread              = new Thread(HandleThread);
-        nextSegment.thread.IsBackground = true;
-        nextSegment.HasWork             = new ManualResetEvent(false);
-        nextSegment.WorkDone            = new ManualResetEvent(true);
-        nextSegment.source              = this;
-
-        syncs[i] = nextSegment.WorkDone;
-
-        nextSegment.thread.Start(nextSegment);
-      }
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Execute(float delta)
-    {
-      if (length > 0)
-      {
-        var entitiesNext      = 0;
-        var threadsInWork     = 0;
-        var entitiesPerThread = length / (threadsAmount + 1);
-        if (entitiesPerThread > entitiesPerThreadMin)
-        {
-          threadsInWork = threadsAmount + 1;
-        }
-        else
-        {
-          threadsInWork     = length / entitiesPerThreadMin;
-          entitiesPerThread = entitiesPerThreadMin;
-        }
-
-
-        for (var i = 0; i < threadsInWork - 1; i++)
-        {
-          var nextSegmentGroup = segmentGroups[i];
-          nextSegmentGroup.delta     = delta;
-          nextSegmentGroup.indexFrom = entitiesNext;
-          nextSegmentGroup.indexTo   = entitiesNext += entitiesPerThread;
-
-          nextSegmentGroup.WorkDone.Reset();
-          nextSegmentGroup.HasWork.Set();
-        }
-
-        segmentGroupLocal.indexFrom = entitiesNext;
-        segmentGroupLocal.indexTo   = length;
-        segmentGroupLocal.delta     = delta;
-        jobAction(segmentGroupLocal);
-
-        for (var i = 0; i < syncs.Length; i++)
-        {
-          syncs[i].WaitOne();
-        }
-      }
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Execute()
-    {
-      if (length > 0)
-      {
-        var entitiesNext      = 0;
-        var threadsInWork     = 0;
-        var entitiesPerThread = length / (threadsAmount + 1);
-        if (entitiesPerThread > entitiesPerThreadMin)
-        {
-          threadsInWork = threadsAmount + 1;
-        }
-        else
-        {
-          threadsInWork     = length / entitiesPerThreadMin;
-          entitiesPerThread = entitiesPerThreadMin;
-        }
-
-
-        for (var i = 0; i < threadsInWork - 1; i++)
-        {
-          var nextSegmentGroup = segmentGroups[i];
-          nextSegmentGroup.indexFrom = entitiesNext;
-          nextSegmentGroup.indexTo   = entitiesNext += entitiesPerThread;
-
-          nextSegmentGroup.WorkDone.Reset();
-          nextSegmentGroup.HasWork.Set();
-        }
-
-        segmentGroupLocal.indexFrom = entitiesNext;
-        segmentGroupLocal.indexTo   = length;
-        jobAction(segmentGroupLocal);
-
-        for (var i = 0; i < syncs.Length; i++)
-        {
-          syncs[i].WaitOne();
-        }
-      }
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    protected void HandleThread(object objSegmentGroup)
-    {
-      var segmentGroup = (SegmentGroup) objSegmentGroup;
-      try
-      {
-        while (Thread.CurrentThread.IsAlive)
-        {
-          segmentGroup.HasWork.WaitOne();
-          segmentGroup.HasWork.Reset();
-
-          jobAction(segmentGroup);
-          segmentGroup.WorkDone.Set();
-        }
-      }
-      catch
-      {
-      }
-    }
+    // //===============================//
+    // // Concurrent
+    // //===============================//
+    //
+    // SegmentGroup       segmentGroupLocal;
+    // SegmentGroup[]     segmentGroups;
+    // ManualResetEvent[] syncs;
+    //
+    //
+    // int threadsAmount        = Environment.ProcessorCount - 1;
+    // int entitiesPerThreadMin = 5000;
+    // int entitiesPerThread;
+    //
+    // HandleSegmentGroup jobAction;
+    //
+    // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    // public void MakeConcurrent(int minEntities, int threads, HandleSegmentGroup jobAction)
+    // {
+    //   this.jobAction = jobAction;
+    //
+    //   segmentGroupLocal        = new SegmentGroup();
+    //   segmentGroupLocal.source = this;
+    //
+    //
+    //   segmentGroups = new SegmentGroup[threadsAmount];
+    //   syncs         = new ManualResetEvent[threadsAmount];
+    //
+    //   for (int i = 0; i < threadsAmount; i++)
+    //   {
+    //     ref var nextSegment = ref segmentGroups[i];
+    //     nextSegment                     = new SegmentGroup();
+    //     nextSegment.thread              = new Thread(HandleThread);
+    //     nextSegment.thread.IsBackground = true;
+    //     nextSegment.HasWork             = new ManualResetEvent(false);
+    //     nextSegment.WorkDone            = new ManualResetEvent(true);
+    //     nextSegment.source              = this;
+    //
+    //     syncs[i] = nextSegment.WorkDone;
+    //
+    //     nextSegment.thread.Start(nextSegment);
+    //   }
+    // }
+    //
+    // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    // public void Execute(float delta)
+    // {
+    //   if (length > 0)
+    //   {
+    //     var entitiesNext      = 0;
+    //     var threadsInWork     = 0;
+    //     var entitiesPerThread = length / (threadsAmount + 1);
+    //     if (entitiesPerThread > entitiesPerThreadMin)
+    //     {
+    //       threadsInWork = threadsAmount + 1;
+    //     }
+    //     else
+    //     {
+    //       threadsInWork     = length / entitiesPerThreadMin;
+    //       entitiesPerThread = entitiesPerThreadMin;
+    //     }
+    //
+    //
+    //     for (var i = 0; i < threadsInWork - 1; i++)
+    //     {
+    //       var nextSegmentGroup = segmentGroups[i];
+    //       nextSegmentGroup.delta     = delta;
+    //       nextSegmentGroup.indexFrom = entitiesNext;
+    //       nextSegmentGroup.indexTo   = entitiesNext += entitiesPerThread;
+    //
+    //       nextSegmentGroup.WorkDone.Reset();
+    //       nextSegmentGroup.HasWork.Set();
+    //     }
+    //
+    //     segmentGroupLocal.indexFrom = entitiesNext;
+    //     segmentGroupLocal.indexTo   = length;
+    //     segmentGroupLocal.delta     = delta;
+    //     jobAction(segmentGroupLocal);
+    //
+    //     for (var i = 0; i < syncs.Length; i++)
+    //     {
+    //       syncs[i].WaitOne();
+    //     }
+    //   }
+    // }
+    //
+    // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    // public void Execute()
+    // {
+    //   if (length > 0)
+    //   {
+    //     var entitiesNext      = 0;
+    //     var threadsInWork     = 0;
+    //     var entitiesPerThread = length / (threadsAmount + 1);
+    //     if (entitiesPerThread > entitiesPerThreadMin)
+    //     {
+    //       threadsInWork = threadsAmount + 1;
+    //     }
+    //     else
+    //     {
+    //       threadsInWork     = length / entitiesPerThreadMin;
+    //       entitiesPerThread = entitiesPerThreadMin;
+    //     }
+    //
+    //
+    //     for (var i = 0; i < threadsInWork - 1; i++)
+    //     {
+    //       var nextSegmentGroup = segmentGroups[i];
+    //       nextSegmentGroup.indexFrom = entitiesNext;
+    //       nextSegmentGroup.indexTo   = entitiesNext += entitiesPerThread;
+    //
+    //       nextSegmentGroup.WorkDone.Reset();
+    //       nextSegmentGroup.HasWork.Set();
+    //     }
+    //
+    //     segmentGroupLocal.indexFrom = entitiesNext;
+    //     segmentGroupLocal.indexTo   = length;
+    //     jobAction(segmentGroupLocal);
+    //
+    //     for (var i = 0; i < syncs.Length; i++)
+    //     {
+    //       syncs[i].WaitOne();
+    //     }
+    //   }
+    // }
+    //
+    // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    // protected void HandleThread(object objSegmentGroup)
+    // {
+    //   var segmentGroup = (SegmentGroup) objSegmentGroup;
+    //   try
+    //   {
+    //     while (Thread.CurrentThread.IsAlive)
+    //     {
+    //       segmentGroup.HasWork.WaitOne();
+    //       segmentGroup.HasWork.Reset();
+    //
+    //       jobAction(segmentGroup);
+    //       segmentGroup.WorkDone.Set();
+    //     }
+    //   }
+    //   catch
+    //   {
+    //   }
+    // }
 
 
     #region EQUALS
@@ -345,7 +353,7 @@ namespace Pixeye.Actors
       [MethodImpl(MethodImplOptions.AggressiveInlining)]
       public bool MoveNext()
       {
-        return ++position < g.length;
+        return ++position < g.entities.Count;
       }
 
       [MethodImpl(MethodImplOptions.AggressiveInlining)]

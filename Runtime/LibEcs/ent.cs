@@ -3,6 +3,7 @@
 //     Date : 3/16/2019 
 
 
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -12,13 +13,13 @@ using UnityEngine;
 namespace Pixeye.Actors
 {
   [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
-  public unsafe class ent
+  public unsafe class ent: IComparable<ent>
   {
     //===============================//
     // Released entities
     //===============================//
 
-    internal static ents entStack = new ents(Framework.Settings.SizeEntities);
+    internal static Stack<ent> entStack = new Stack<ent>(Framework.Settings.SizeEntities);
 
     // internal static int  size     = sizeof(ent);
     internal static int lastID;
@@ -60,6 +61,13 @@ namespace Pixeye.Actors
     public bool Equals(ent other)
     {
       return id == other.id;
+    }
+    
+    public int CompareTo(ent other)
+    {
+      if (other.id > id) return 1;
+      if (other.id < id) return -1;
+      return 0;
     }
 
     public override bool Equals(object obj)

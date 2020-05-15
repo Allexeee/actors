@@ -25,7 +25,7 @@ namespace Pixeye.Actors
 		internal static int lengthTotal;
 		public static int[,] Generations;
 
-		internal static ents alive;
+		// internal static ents alive;
 
  
 		
@@ -58,7 +58,7 @@ namespace Pixeye.Actors
 				entities[i] = new CacheEntity(6);
 			}
 
-			alive = new ents(Framework.Settings.SizeEntities);
+			// alive = new ents(Framework.Settings.SizeEntities);
 
 			#if UNITY_EDITOR
 			Toolbox.OnDestroyAction += Dispose;
@@ -68,7 +68,7 @@ namespace Pixeye.Actors
 		// Use for other libraries
 		public static int GetLiveEntities()
 		{
-			return alive.length;
+			return 0;
 		}
 
 
@@ -104,7 +104,7 @@ namespace Pixeye.Actors
 			ent e = new ent();
 			e.id  = id;
 			// e.age = age;
-			alive.Add(e);
+			// alive.Add(e);
 		}
 
 
@@ -156,7 +156,7 @@ namespace Pixeye.Actors
 				entities[i] = new CacheEntity(6);
 			}
 
-			alive = new ents(Framework.Settings.SizeEntities);
+			// alive = new ents(Framework.Settings.SizeEntities);
 		}
 
 		public static void Dispose()

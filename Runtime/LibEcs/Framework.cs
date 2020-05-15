@@ -18,7 +18,7 @@ namespace Pixeye.Actors
 
 		public static void Cleanup()
 		{
-			groups.All.Dispose();
+			// groups.All.Dispose();
 
 			for (int i = 0; i < groups.globals.Length; i++)
 			{

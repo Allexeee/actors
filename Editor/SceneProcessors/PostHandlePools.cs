@@ -58,8 +58,8 @@ namespace Pixeye.Actors
 			{
 				var a = actors[i];
 
-				if (!a.isPooled) continue;
-				CheckPoolCache(a.gameObject, Pool.Entities, starter);
+				// if (!a.isPooled) continue;
+				// CheckPoolCache(a.gameObject, Pool.Entities, starter);
 			}
 		}
 

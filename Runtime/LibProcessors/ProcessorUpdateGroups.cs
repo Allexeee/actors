@@ -24,7 +24,7 @@ namespace Pixeye.Actors
           var group = groups.Added.Elements[i];
           if (group.HasEntity(entity, out var index))
           {
-            debug.log($"Processor Update Group Clear Add ent: {entity} {group}");
+            // debug.log($"Processor Update Group Clear Add ent: {entity} {group}");
             group.RemoveAt(index);
           }
         }
